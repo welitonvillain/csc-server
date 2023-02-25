@@ -1,0 +1,1433 @@
+swagger: '2.0'
+info:
+  title: Serviço de pedidos
+  version: '0.1'
+host: api.agendarentrega.com/pedido
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/arquivos/{uuid}:download-link':
+    get:
+      operationId: CreateDownloadLink
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoCreateDownloadLinkArquivoIntegracaoResponse'
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - IntegracaoService
+  '/enderecos/{endereco_uuid}':
+    get:
+      operationId: GetEndereco
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoGetEnderecoResponse'
+      parameters:
+        - name: endereco_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - EnderecoService
+    delete:
+      operationId: DeleteEndereco
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoDeleteEnderecoResponse'
+      parameters:
+        - name: endereco_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - EnderecoService
+    post:
+      operationId: UpdateEndereco
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoUpdateEnderecoResponse'
+      parameters:
+        - name: endereco_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoUpdateEnderecoRequest'
+      tags:
+        - EnderecoService
+  '/entidades/{endereco.entidade_uuid}/enderecos':
+    post:
+      operationId: CreateEndereco
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoCreateEnderecoResponse'
+      parameters:
+        - name: endereco.entidade_uuid
+          description: Código da entidade
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoCreateEnderecoRequest'
+      tags:
+        - EnderecoService
+  '/entidades/{entidadeUUID}/status':
+    get:
+      operationId: StatusEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoStatusEntidadeResponse'
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+      tags:
+        - EntidadeService
+  '/entidades/{entidade_uuid}/enderecos':
+    get:
+      operationId: ListEnderecos
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoListEnderecosResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: endereco
+          description: Filtro de endereço.
+          in: query
+          required: false
+          type: string
+        - name: all
+          description: Retornar todos os endereços "filhos" baseado na consulta atual.
+          in: query
+          required: false
+          type: boolean
+          format: boolean
+      tags:
+        - EnderecoService
+  '/entidades/{entidade_uuid}/integracao/arquivos:search':
+    post:
+      operationId: ListarArquivos
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoListarArquivosIntegracaoResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoListarArquivosIntegracaoRequest'
+      tags:
+        - IntegracaoService
+  '/entidades/{entidade_uuid}/pedidos/search':
+    post:
+      operationId: SearchPedidosEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoSearchPedidosEntidadeResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoSearchPedidosEntidadeRequest'
+      tags:
+        - PedidoService
+  '/entidades/{entidade_uuid}/pedidos:relatorioAsync':
+    post:
+      operationId: RelatorioAsync
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoJobOperation'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoRelatorioPedidoRequest'
+      tags:
+        - PedidoService
+  '/entidades/{entidade_uuid}/pedidos:relatorios':
+    post:
+      operationId: Relatorio
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoRelatorioPedidoResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoRelatorioPedidoRequest'
+      tags:
+        - PedidoService
+  '/entidades/{entidade_uuid}/produtos':
+    post:
+      summary: Inserir produto
+      operationId: CreateProduto
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoProdutoV2'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoCreateProdutoRequest'
+      tags:
+        - ProdutoService
+  '/entidades/{entidade_uuid}/produtos:batchGetProdutos':
+    get:
+      summary: Buscar vários produtos em uma única chamada
+      operationId: BatchGetProdutos
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoBatchGetProdutosResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: eans
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - ProdutoService
+  '/entidades/{entidade_uuid}/produtos:getExterno':
+    get:
+      summary: Recuperar produto pelo código externo do cliente
+      operationId: GetProdutoExterno
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoProdutoV2'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: codigo
+          in: query
+          required: false
+          type: string
+      tags:
+        - ProdutoService
+  '/entidades/{entidade_uuid}/produtos:search':
+    post:
+      summary: Listar produtos
+      operationId: SearchProdutosEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoSearchProdutosEntidadeResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoSearchProdutosEntidadeRequest'
+      tags:
+        - ProdutoService
+  '/jobs/{uuid}':
+    get:
+      operationId: JobStatus
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoJobOperation'
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - PedidoService
+  '/pedidos/importados/by-emitente/{cnpjEmitente}/{codigo}/set-status':
+    post:
+      operationId: AlterarStatusPedido
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoAlterarStatusPedidoResponse'
+      parameters:
+        - name: cnpjEmitente
+          in: path
+          required: true
+          type: string
+        - name: codigo
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoAlterarStatusPedidoRequest'
+      tags:
+        - PedidoService
+  /pedidos/importar:
+    post:
+      summary: Funcionalidade para realizar a operação de importação de pedidos para dentro do portal
+      operationId: ImportarPedido
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoImportarPedidoResponse'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoImportarPedidoRequest'
+      tags:
+        - PedidoService
+  '/pedidos/{pedido_uuid}/items':
+    get:
+      operationId: GetItemsPedido
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoGetItemsPedidoResponse'
+      parameters:
+        - name: pedido_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - PedidoService
+  '/pedidos/{uuid}':
+    get:
+      operationId: GetPedido
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoPedido'
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: with_itens
+          in: query
+          required: false
+          type: boolean
+          format: boolean
+      tags:
+        - PedidoService
+  '/pedidos:batchGetPedidos':
+    get:
+      operationId: BatchGetPedidos
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoBatchGetPedidosResponse'
+      parameters:
+        - name: uuids
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - PedidoService
+  '/produtos/{uuid}':
+    get:
+      summary: Recuperar produto pelo código interno do portal
+      operationId: GetProduto
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoProdutoV2'
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - ProdutoService
+    post:
+      summary: Atualizar produto
+      operationId: UpdateProduto
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoProdutoV2'
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/pedidoUpdateProdutoRequest'
+      tags:
+        - ProdutoService
+  '/produtos:getReferenciaProdutosNota':
+    get:
+      summary: Buscar os produtos referente aos itens da nota
+      operationId: GetReferenciaProdutosNota
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/pedidoGetReferenciaProdutosNotaResponse'
+      parameters:
+        - name: chave
+          in: query
+          required: false
+          type: string
+      tags:
+        - ProdutoService
+definitions:
+  EntidadeTipo:
+    type: string
+    enum:
+      - TipoEntidade_FISICA
+      - TipoEntidade_JURIDICA
+    default: TipoEntidade_FISICA
+  ImportarPedidoRequestEmpresa:
+    type: object
+    properties:
+      cnpj:
+        type: string
+    title: Informações da empresa
+  ImportarPedidoRequestFornecedor:
+    type: object
+    properties:
+      cnpj:
+        type: string
+        title: Apenas para compatibilidade atual, pode ser utilizado o novo campo
+          "identidade"
+      identidade:
+        type: string
+        title: CPF ou CNPJ do Fornecedor
+      nome_completo:
+        type: string
+        description: Em caso de CPF, é obrigatório informar o Nome Completo. Para
+          CNPJs, este campo não precisa ser preenchido.
+    title: Informações do fornecedor
+  ImportarPedidoRequestItem:
+    type: object
+    properties:
+      produto:
+        $ref: '#/definitions/ImportarPedidoRequestItemProduto'
+        title: Produto
+      sequencia:
+        type: integer
+        format: int32
+        title: Sequencial do item no pedido
+      quantidade:
+        type: number
+        format: double
+        title: Quantidade de itens do produto
+      preco_unitario:
+        type: number
+        format: double
+        title: Preço unitário
+      preco_total:
+        type: number
+        format: double
+        title: Preço total
+      volume:
+        $ref: '#/definitions/ItemVolume'
+        title: Volume de Recebimento total do produto no pedido
+      ncm:
+        type: string
+        title: Código NCM
+      impostos:
+        $ref: '#/definitions/ItemImpostos'
+        title: Informações de impostos do produto no pedido
+  ImportarPedidoRequestItemProduto:
+    type: object
+    properties:
+      ean:
+        type: string
+        title: Código EAN do Produto
+      descricao:
+        type: string
+        title: Descrição
+      codigo_fornecedor:
+        type: string
+        title: Código do produto do fornecedor
+      codigo_destinatario:
+        type: string
+        title: Código do produto do destinatário
+    title: Objeto que descreve um produto
+  ItemImpostos:
+    type: object
+    properties:
+      cofins:
+        $ref: '#/definitions/ItemImpostosImposto'
+        description: Opcional.
+      icms:
+        $ref: '#/definitions/ItemImpostosImposto'
+        description: Opcional.
+      icmsst:
+        $ref: '#/definitions/ItemImpostosImposto'
+        description: Opcional.
+      ipi:
+        $ref: '#/definitions/ItemImpostosImposto'
+        description: Opcional.
+      pis:
+        $ref: '#/definitions/ItemImpostosImposto'
+        description: Opcional.
+  ItemImpostosImposto:
+    type: object
+    properties:
+      aliquota:
+        type: number
+        format: double
+        description: Alíquota do imposto. Opcional.
+      valor:
+        type: number
+        format: double
+        description: Valor do imposto. Opcional.
+  ItemVolume:
+    type: object
+    properties:
+      total:
+        type: number
+        format: double
+        title: Volume total do item no pedido
+      unitario:
+        type: number
+        format: double
+        title: Valor em volume referente a uma unidade do produto
+    description: Definição de volumetria dos produtos.
+  OrderColumn:
+    type: object
+    properties:
+      name:
+        type: string
+      desc:
+        type: boolean
+        format: boolean
+  PedidoItemImpostoImposto:
+    type: object
+    properties:
+      aliq:
+        type: number
+        format: double
+      valor:
+        type: number
+        format: double
+  ResumoSaldoSaldo:
+    type: object
+    properties:
+      total:
+        type: number
+        format: float
+      pendente:
+        type: number
+        format: float
+      entregue:
+        type: number
+        format: float
+      agendado:
+        type: number
+        format: float
+  UserAuthenticationMethod:
+    type: string
+    enum:
+      - AuthenticationMethod_NONE
+      - AuthenticationMethod_USERNAME
+      - AuthenticationMethod_EMAIL
+    default: AuthenticationMethod_NONE
+  accountUser:
+    type: object
+    properties:
+      uuid:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      createdAt:
+        type: string
+        format: int64
+      type:
+        $ref: '#/definitions/accountUserType'
+      authenticationMethod:
+        $ref: '#/definitions/UserAuthenticationMethod'
+  accountUserProfile:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/accountUser'
+      profile:
+        $ref: '#/definitions/profileProfile'
+  accountUserType:
+    type: string
+    enum:
+      - Type_API
+      - Type_USER
+    default: Type_API
+  agendarentregapedidoProduto:
+    type: object
+    properties:
+      ean:
+        type: string
+        title: Código EAN do Produto
+      descricao:
+        type: string
+        title: Descrição
+      cor:
+        type: string
+        title: Cor
+      especificacao:
+        type: string
+        title: Especificação
+      unidade_medida_unitario:
+        type: string
+        title: Unidade medida unitário
+      embalagem:
+        type: string
+        title: Embalagem
+      codigo_fornecedor:
+        type: string
+        title: Código do produto do fornecedor
+      codigo_destinatario:
+        type: string
+        title: Código do produto do destinatário
+      unidade_medida_produto:
+        type: string
+        title: Unidade de medida do produto
+      quantidade_itens_unitario:
+        type: number
+        format: float
+        title: Quantidade itens unitário
+  apiEntidade:
+    type: object
+    properties:
+      uuid:
+        type: string
+      tipo:
+        $ref: '#/definitions/EntidadeTipo'
+      identidadeRaiz:
+        type: string
+        title: 'Em caso de Pessoa Física, CPF completo, caso contrário, somente 8 digitos referente à parte matriz do CNPJ'
+      nome:
+        type: string
+      nomeFantasia:
+        type: string
+      dataCadastro:
+        type: string
+      logoPersonalizada:
+        type: boolean
+        format: boolean
+      identidade:
+        type: string
+        description: |-
+          Retorno da identidade "completa".
+          Diferente do campo "identidadeRaiz", o campo "identidade" em caso de ser um CNPJ,
+          sempre retornará o CNPJ 1 da raiz.
+  apiFilial:
+    type: object
+    properties:
+      uuid:
+        type: string
+      identidade:
+        type: string
+      nome_fantasia:
+        type: string
+      entidade:
+        $ref: '#/definitions/apiEntidade'
+  apiOrder:
+    type: object
+    properties:
+      columns:
+        type: array
+        items:
+          $ref: '#/definitions/OrderColumn'
+  apiPage:
+    type: object
+    properties:
+      current:
+        type: integer
+        format: int32
+      total:
+        type: integer
+        format: int32
+      perPage:
+        type: integer
+        format: int32
+  apiPageRequest:
+    type: object
+    properties:
+      page:
+        type: integer
+        format: int32
+      size:
+        type: integer
+        format: int32
+  googlerpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: 'The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].'
+      message:
+        type: string
+        description: |-
+          A developer-facing error message, which should be in English. Any
+          user-facing error message should be localized and sent in the
+          [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/protobufAny'
+        description: |-
+          A list of messages that carry the error details.  There is a common set of
+          message types for APIs to use.
+    description: |-
+      - Simple to use and understand for most users
+      - Flexible enough to meet unexpected needs
+
+      # Overview
+
+      The `Status` message contains three pieces of data: error code, error message,
+      and error details. The error code should be an enum value of
+      [google.rpc.Code][google.rpc.Code], but it may accept additional error codes if needed.  The
+      error message should be a developer-facing English message that helps
+      developers *understand* and *resolve* the error. If a localized user-facing
+      error message is needed, put the localized message in the error details or
+      localize it in the client. The optional error details may contain arbitrary
+      information about the error. There is a predefined set of error detail types
+      in the package `google.rpc` that can be used for common error conditions.
+
+      # Language mapping
+
+      The `Status` message is the logical representation of the error model, but it
+      is not necessarily the actual wire format. When the `Status` message is
+      exposed in different client libraries and different wire protocols, it can be
+      mapped differently. For example, it will likely be mapped to some exceptions
+      in Java, but more likely mapped to some error codes in C.
+
+      # Other uses
+
+      The error model and the `Status` message can be used in a variety of
+      environments, either with or without APIs, to provide a
+      consistent developer experience across different environments.
+
+      Example uses of this error model include:
+
+      - Partial errors. If a service needs to return partial errors to the client,
+          it may embed the `Status` in the normal response to indicate the partial
+          errors.
+
+      - Workflow errors. A typical workflow has multiple steps. Each step may
+          have a `Status` message for error reporting.
+
+      - Batch operations. If a client uses batch request and batch response, the
+          `Status` message should be used directly inside batch response, one for
+          each error sub-response.
+
+      - Asynchronous operations. If an API call embeds asynchronous operation
+          results in its response, the status of those operations should be
+          represented directly using the `Status` message.
+
+      - Logging. If some API errors are stored in logs, the message `Status` could
+          be used directly after any stripping needed for security/privacy reasons.
+    title: |-
+      The `Status` type defines a logical error model that is suitable for different
+      programming environments, including REST APIs and RPC APIs. It is used by
+      [gRPC](https://github.com/grpc). The error model is designed to be:
+  pedidoAlterarStatusPedidoRequest:
+    type: object
+    properties:
+      cnpjEmitente:
+        type: string
+      codigo:
+        type: string
+      status:
+        $ref: '#/definitions/pedidoStatusPedido'
+  pedidoAlterarStatusPedidoResponse:
+    type: object
+  pedidoArquivoIntegracao:
+    type: object
+    properties:
+      nome:
+        type: string
+      tamanho:
+        type: integer
+        format: int32
+      data_upload:
+        type: string
+      status:
+        $ref: '#/definitions/pedidoArquivoIntegracaoStatus'
+      uuid:
+        type: string
+  pedidoArquivoIntegracaoStatus:
+    type: string
+    enum:
+      - STATUS_INDEFINIDO
+      - STATUS_PENDENTE
+      - STATUS_CONCLUIDO
+      - STATUS_ERRO
+    default: STATUS_INDEFINIDO
+  pedidoBatchGetItemsPedidoResponse:
+    type: object
+    properties:
+      pedidos:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/pedidoGetItemsPedidoResponse'
+  pedidoBatchGetPedidosExternoResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoPedido'
+  pedidoBatchGetPedidosResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoPedido'
+  pedidoBatchGetProdutosResponse:
+    type: object
+    properties:
+      produtos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoProdutoV2'
+  pedidoCreateDownloadLinkArquivoIntegracaoResponse:
+    type: object
+    properties:
+      url:
+        type: string
+  pedidoCreateEnderecoRequest:
+    type: object
+    properties:
+      endereco:
+        $ref: '#/definitions/pedidoEndereco'
+  pedidoCreateEnderecoResponse:
+    type: object
+  pedidoCreateProdutoRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      produto:
+        $ref: '#/definitions/pedidoProdutoV2'
+  pedidoDeleteEnderecoResponse:
+    type: object
+  pedidoEndereco:
+    type: object
+    properties:
+      uuid:
+        type: string
+        title: Código interno do endereço
+      entidade_uuid:
+        type: string
+        title: Código da entidade
+      endereco:
+        type: string
+        title: Path completo de endereçamento
+      endereco_base:
+        type: string
+        description: |-
+          Endereço "base" retorna o último "nome" do endereço completo.
+          Campo readonly.
+      endereco_pai:
+        type: string
+        description: |-
+          Endereço "pai" retorna o endereço completo do "pai" do endereço atual.
+          Campo readonly.
+      nome:
+        type: string
+        title: Nome do endereço
+      data_cadastro:
+        type: string
+        title: Data de cadastro
+  pedidoGetEnderecoResponse:
+    type: object
+    properties:
+      endereco:
+        $ref: '#/definitions/pedidoEndereco'
+  pedidoGetItemsPedidoResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoPedidoItem'
+  pedidoGetPedidoDestinatarioByEntidadeFornecedorResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoPedido'
+  pedidoGetReferenciaProdutosNotaResponse:
+    type: object
+    properties:
+      itens:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/agendarentregapedidoProduto'
+  pedidoImportarArquivoIntegracaoResponse:
+    type: object
+  pedidoImportarPedidoRequest:
+    type: object
+    properties:
+      codigo:
+        type: string
+        title: Código/Número do pedido de compra registrado no ERP
+      fornecedor:
+        $ref: '#/definitions/ImportarPedidoRequestFornecedor'
+        title: Fornecedor
+      emitente:
+        $ref: '#/definitions/ImportarPedidoRequestEmpresa'
+        title: Emitente
+      destinatario:
+        $ref: '#/definitions/ImportarPedidoRequestEmpresa'
+        title: Destinatário
+      data_emissao:
+        type: string
+        title: 'Data de emissão (Formato: YYYY-MM-DD HH:mm)'
+      observacoes:
+        type: string
+        title: Observações
+      entrega:
+        $ref: '#/definitions/pedidoImportarPedidoRequestEntrega'
+        title: Data de previsão de entrega do pedido
+      status:
+        $ref: '#/definitions/pedidoStatusPedido'
+        title: Status do Pedido
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/ImportarPedidoRequestItem'
+        title: Itens do Pedido
+  pedidoImportarPedidoRequestEntrega:
+    type: object
+    properties:
+      data:
+        type: string
+        title: 'Data prevista para entrega. Formato: YYYY-MM-DD'
+      hora:
+        type: string
+        title: 'Hora prevista para entrega. Formato: HH:mm'
+  pedidoImportarPedidoResponse:
+    type: object
+    properties:
+      pedido:
+        $ref: '#/definitions/pedidoPedido'
+  pedidoJobOperation:
+    type: object
+    properties:
+      uuid:
+        type: string
+      indeterminado:
+        type: boolean
+        format: boolean
+      done:
+        type: boolean
+        format: boolean
+      progress:
+        type: number
+        format: float
+      status:
+        $ref: '#/definitions/pedidoJobOperationStatus'
+      error:
+        $ref: '#/definitions/googlerpcStatus'
+      response:
+        $ref: '#/definitions/protobufAny'
+  pedidoJobOperationStatus:
+    type: string
+    enum:
+      - PENDING
+      - RUNNING
+      - FINISHED
+    default: PENDING
+  pedidoListEnderecosResponse:
+    type: object
+    properties:
+      enderecos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoEndereco'
+  pedidoListarArquivosIntegracaoRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      filtro:
+        $ref: '#/definitions/pedidoListarArquivosIntegracaoRequestFiltro'
+      page:
+        $ref: '#/definitions/apiPageRequest'
+      order:
+        $ref: '#/definitions/apiOrder'
+  pedidoListarArquivosIntegracaoRequestFiltro:
+    type: object
+    properties:
+      data:
+        type: string
+      status:
+        $ref: '#/definitions/pedidoArquivoIntegracaoStatus'
+      nome_arquivo:
+        type: string
+  pedidoListarArquivosIntegracaoResponse:
+    type: object
+    properties:
+      arquivos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoArquivoIntegracao'
+      page:
+        $ref: '#/definitions/apiPage'
+      order:
+        $ref: '#/definitions/apiOrder'
+  pedidoPedido:
+    type: object
+    properties:
+      uuid:
+        type: string
+      codigo:
+        type: string
+        title: Código de pedido interno da empresa que gerou o pedido (emitente)
+      comprador:
+        $ref: '#/definitions/accountUserProfile'
+      fornecedor:
+        $ref: '#/definitions/apiFilial'
+      emitente:
+        $ref: '#/definitions/apiFilial'
+      destinatario:
+        $ref: '#/definitions/apiFilial'
+      dataCadastro:
+        type: string
+      dataEmissao:
+        type: string
+      observacoes:
+        type: string
+      entrega:
+        $ref: '#/definitions/pedidoPedidoEntrega'
+        title: Previsão da data de entrega
+      status:
+        $ref: '#/definitions/pedidoStatusPedido'
+      itens:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoPedidoItem'
+      saldo:
+        $ref: '#/definitions/pedidoResumoSaldo'
+  pedidoPedidoEntrega:
+    type: object
+    properties:
+      data:
+        type: string
+        title: 'Data prevista para entrega. Formato: YYYY-MM-DD'
+      horaInicio:
+        type: string
+    title: Informações de período de entrega do pedido
+  pedidoPedidoItem:
+    type: object
+    properties:
+      uuid:
+        type: string
+        title: 'Código interno do item do pedido, esse campo é ignorando em operações de importação'
+      produto:
+        $ref: '#/definitions/agendarentregapedidoProduto'
+        title: Produto
+      sequencia:
+        type: integer
+        format: int32
+        title: Sequencial do item no pedido
+      quantidade:
+        type: number
+        format: float
+        title: Quantidade de itens do produto
+      preco_unitario:
+        type: number
+        format: float
+        title: Preço unitário
+      preco_total:
+        type: number
+        format: float
+        title: Preço total
+      volume_recebimento:
+        type: number
+        format: float
+        title: Volume de Recebimento total do produto no pedido
+      volume_recebimento_unitario:
+        type: number
+        format: float
+        title: Volume de Recebimento unitário do item
+      saldo:
+        $ref: '#/definitions/pedidoResumoSaldo'
+        title: 'Resumo de saldos do pedido, essa informação é cálculada pelo portal'
+      ncm:
+        type: string
+        title: Código NCM
+      imposto:
+        $ref: '#/definitions/pedidoPedidoItemImposto'
+        title: Informações de imposto
+  pedidoPedidoItemImposto:
+    type: object
+    properties:
+      cofins:
+        $ref: '#/definitions/PedidoItemImpostoImposto'
+      icms:
+        $ref: '#/definitions/PedidoItemImpostoImposto'
+      icmsst:
+        $ref: '#/definitions/PedidoItemImpostoImposto'
+      ipi:
+        $ref: '#/definitions/PedidoItemImpostoImposto'
+      pis:
+        $ref: '#/definitions/PedidoItemImpostoImposto'
+  pedidoProdutoV2:
+    type: object
+    properties:
+      uuid:
+        type: string
+        title: Código Interno
+      codigo:
+        type: string
+        title: Código externo do Produto
+      codigo_fornecedor:
+        type: string
+        title: Código externo do Produto na base do fornecedor
+      ean:
+        type: string
+        title: Código EAN do produto
+      descricao:
+        type: string
+        title: Descrição do Produto
+      endereco:
+        type: string
+        title: Código do endereçamento do produto
+  pedidoRelatorioPedidoRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      nome:
+        type: string
+      filtros:
+        type: object
+        additionalProperties:
+          type: string
+  pedidoRelatorioPedidoResponse:
+    type: object
+    properties:
+      url:
+        type: string
+  pedidoResumoSaldo:
+    type: object
+    properties:
+      quantidade:
+        $ref: '#/definitions/ResumoSaldoSaldo'
+      volume:
+        $ref: '#/definitions/ResumoSaldoSaldo'
+      valor:
+        $ref: '#/definitions/ResumoSaldoSaldo'
+  pedidoSearchPedidosEntidadeRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      page:
+        $ref: '#/definitions/apiPageRequest'
+      order:
+        $ref: '#/definitions/apiOrder'
+      fornecedor_entidade_uuid:
+        type: string
+      codigo:
+        type: string
+  pedidoSearchPedidosEntidadeResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoPedido'
+      page:
+        $ref: '#/definitions/apiPage'
+      order:
+        $ref: '#/definitions/apiOrder'
+      filiais:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/apiFilial'
+      compradores:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/accountUserProfile'
+  pedidoSearchProdutosEntidadeRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      filtro:
+        $ref: '#/definitions/pedidoSearchProdutosEntidadeRequestFiltro'
+      page:
+        $ref: '#/definitions/apiPageRequest'
+  pedidoSearchProdutosEntidadeRequestFiltro:
+    type: object
+    properties:
+      ean:
+        type: string
+      codigo:
+        type: string
+      descricao:
+        type: string
+  pedidoSearchProdutosEntidadeResponse:
+    type: object
+    properties:
+      produtos:
+        type: array
+        items:
+          $ref: '#/definitions/pedidoProdutoV2'
+      page:
+        $ref: '#/definitions/apiPage'
+  pedidoStatusEntidadeResponse:
+    type: object
+    properties:
+      ativo:
+        type: boolean
+        format: boolean
+      importacaoAtiva:
+        type: boolean
+        format: boolean
+  pedidoStatusPedido:
+    type: string
+    enum:
+      - STATUS_PEDIDO_INDEFINIDO
+      - PEDIDO_EM_ABERTO
+      - PEDIDO_CONCLUIDO
+      - PEDIDO_CANCELADO
+    default: STATUS_PEDIDO_INDEFINIDO
+  pedidoUpdateEnderecoRequest:
+    type: object
+    properties:
+      endereco_uuid:
+        type: string
+      endereco:
+        $ref: '#/definitions/pedidoEndereco'
+  pedidoUpdateEnderecoResponse:
+    type: object
+  pedidoUpdateProdutoRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      produto:
+        $ref: '#/definitions/pedidoProdutoV2'
+  profileProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  protobufAny:
+    type: object
+    properties:
+      type_url:
+        type: string
+        description: |-
+          A URL/resource name that uniquely identifies the type of the serialized
+          protocol buffer message. This string must contain at least
+          one "/" character. The last segment of the URL's path must represent
+          the fully qualified name of the type (as in
+          `path/google.protobuf.Duration`). The name should be in a canonical form
+          (e.g., leading "." is not accepted).
+
+          In practice, teams usually precompile into the binary all types that they
+          expect it to use in the context of Any. However, for URLs which use the
+          scheme `http`, `https`, or no scheme, one can optionally set up a type
+          server that maps type URLs to message definitions as follows:
+
+          * If no scheme is provided, `https` is assumed.
+          * An HTTP GET on the URL must yield a [google.protobuf.Type][]
+            value in binary format, or produce an error.
+          * Applications are allowed to cache lookup results based on the
+            URL, or have them precompiled into a binary to avoid any
+            lookup. Therefore, binary compatibility needs to be preserved
+            on changes to types. (Use versioned type names to manage
+            breaking changes.)
+
+          Note: this functionality is not currently available in the official
+          protobuf release, and it is not used for type URLs beginning with
+          type.googleapis.com.
+
+          Schemes other than `http`, `https` (or the empty scheme) might be
+          used with implementation specific semantics.
+      value:
+        type: string
+        format: byte
+        description: Must be a valid serialized protocol buffer of the above specified type.
+    description: |-
+      `Any` contains an arbitrary serialized protocol buffer message along with a
+      URL that describes the type of the serialized message.
+
+      Protobuf library provides support to pack/unpack Any values in the form
+      of utility functions or additional generated methods of the Any type.
+
+      Example 1: Pack and unpack a message in C++.
+
+          Foo foo = ...;
+          Any any;
+          any.PackFrom(foo);
+          ...
+          if (any.UnpackTo(&foo)) {
+            ...
+          }
+
+      Example 2: Pack and unpack a message in Java.
+
+          Foo foo = ...;
+          Any any = Any.pack(foo);
+          ...
+          if (any.is(Foo.class)) {
+            foo = any.unpack(Foo.class);
+          }
+
+       Example 3: Pack and unpack a message in Python.
+
+          foo = Foo(...)
+          any = Any()
+          any.Pack(foo)
+          ...
+          if any.Is(Foo.DESCRIPTOR):
+            any.Unpack(foo)
+            ...
+
+       Example 4: Pack and unpack a message in Go
+
+           foo := &pb.Foo{...}
+           any, err := ptypes.MarshalAny(foo)
+           ...
+           foo := &pb.Foo{}
+           if err := ptypes.UnmarshalAny(any, foo); err != nil {
+             ...
+           }
+
+      The pack methods provided by protobuf library will by default use
+      'type.googleapis.com/full.type.name' as the type URL and the unpack
+      methods only use the fully qualified type name after the last '/'
+      in the type URL, for example "foo.bar.com/x/y.z" will yield type
+      name "y.z".
+
+
+      JSON
+      ====
+      The JSON representation of an `Any` value uses the regular
+      representation of the deserialized, embedded message, with an
+      additional field `@type` which contains the type URL. Example:
+
+          package google.profile;
+          message Person {
+            string first_name = 1;
+            string last_name = 2;
+          }
+
+          {
+            "@type": "type.googleapis.com/google.profile.Person",
+            "firstName": <string>,
+            "lastName": <string>
+          }
+
+      If the embedded message type is well-known and has a custom JSON
+      representation, that representation will be embedded adding a field
+      `value` which holds the custom JSON in addition to the `@type`
+      field. Example (for message [google.protobuf.Duration][]):
+
+          {
+            "@type": "type.googleapis.com/google.protobuf.Duration",
+            "value": "1.212s"
+          }
+securityDefinitions:
+  API_KEY:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - API_KEY: []

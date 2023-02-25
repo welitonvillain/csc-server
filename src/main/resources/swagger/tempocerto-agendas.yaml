@@ -1,0 +1,6271 @@
+swagger: '2.0'
+info:
+  title: Serviço de Agendas de Recebimento
+  version: '0.1'
+host: api.agendarentrega.com/agenda-recebimento/v2
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  "/agenda-cobrancas/{uuid}/baixar":
+    post:
+      operationId: BaixarAgendaCobranca
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiBaixarAgendaCobrancaResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiBaixarAgendaCobrancaRequest"
+      tags:
+        - AgendaCobrancaService
+  "/agenda-cobrancas/{uuid}/estornar":
+    post:
+      operationId: EstornarAgendaCobranca
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiEstornarAgendaCobrancaResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiEstornarAgendaCobrancaRequest"
+      tags:
+        - AgendaCobrancaService
+  "/agendas/-/documentos":
+    post:
+      operationId: UploadDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiAgendaDocumento"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: string
+            format: byte
+      tags:
+        - AgendaService
+  "/agendas/-/documentos/{documento_uuid}:createDownloadLink":
+    get:
+      operationId: CreateDownloadLinkDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCreateDownloadLinkDocumentoResponse"
+      parameters:
+        - name: documento_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+  "/agendas/-/pedidos:batchGetPedidosAgendas":
+    get:
+      operationId: BatchGetPedidosAgendas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiBatchGetPedidosAgendasResponse"
+      parameters:
+        - name: uuids
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - AgendaService
+  "/agendas/{agendaUUID}/confirmar-janela":
+    post:
+      operationId: ConfirmarAgendaJanela
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgenda"
+      parameters:
+        - name: agendaUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiConfirmarAgendaJanelaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agendaUUID}/status-descarga":
+    post:
+      operationId: UpdateStatusDescargaAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusDescargaAgendaResponse"
+      parameters:
+        - name: agendaUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusDescargaAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/anotacoes":
+    get:
+      operationId: GetAnotacoesAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetAnotacoesAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+    post:
+      operationId: CadastroAnotacaoAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgendaAnotacao"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCadastroAnotacaoAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/documentos":
+    get:
+      operationId: GetDocumentosAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetDocumentosAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/eventos":
+    get:
+      operationId: GetEventosAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetEventosAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/nfes":
+    post:
+      operationId: AdicionarNotasAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiAdicionarNotasAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiAdicionarNotasAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/nfes/{chave}:updateStatusRecebimentoNota":
+    post:
+      operationId: UpdateStatusRecebimentoNota
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoNotaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: chave
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoNotaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/notas":
+    get:
+      operationId: GetNotasAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetNotasAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/pedidos":
+    get:
+      operationId: GetPedidosAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetPedidosAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/pedidos/{pedido_uuid}/itens":
+    post:
+      operationId: AtualizarQuantidadeEntregaItensPedido
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiAtualizarQuantidadeEntregaItensPedidoResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: pedido_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiAtualizarQuantidadeEntregaItensPedidoRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/reagendar":
+    post:
+      operationId: ReagendarEntrega
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgenda"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiSolicitarAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}/status-recebimento":
+    get:
+      operationId: GetStatusRecebimentoAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetStatusRecebimentoAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}:confirmarRecebimento":
+    post:
+      operationId: ConfirmarRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiConfirmarRecebimentoAgendaResponse"
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiConfirmarRecebimentoAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{agenda_uuid}:updateStatusRecebimento":
+    post:
+      operationId: UpdateStatusRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: agenda_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{uuid}":
+    get:
+      operationId: GetAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetAgendaResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: expand
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - AgendaService
+  "/agendas/{uuid}/cancelar":
+    post:
+      operationId: CancelarAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCancelarAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{uuid}/cobranca":
+    get:
+      operationId: GetAgendaCobrancaAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetAgendaCobrancaAgendaResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - AgendaCobrancaService
+  "/agendas/{uuid}/confirmar":
+    post:
+      operationId: ConfirmarAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiConfirmarAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas/{uuid}:reagendarRecebimento":
+    post:
+      operationId: ReagendarRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgenda"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiReagendarRecebimentoRequest"
+      tags:
+        - AgendaService
+  "/agendas/{uuid}:transferir":
+    post:
+      operationId: TransferirAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgenda"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiTransferirAgendaRequest"
+      tags:
+        - AgendaService
+  "/agendas:batchGetAgendas":
+    get:
+      operationId: BatchGetAgendas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiBatchGetAgendasResponse"
+      parameters:
+        - name: uuids
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: expand
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - AgendaService
+  "/agendas:cadastrar":
+    post:
+      operationId: CadastrarAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgenda"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCadastrarAgendaRequest"
+      tags:
+        - AgendaService
+  "/bloqueios-fornecedores/{uuid}":
+    delete:
+      operationId: DeleteBloqueio
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteBloqueioFornecedorResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+  "/calendario/{data_uuid}":
+    get:
+      operationId: GetData
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetDataResponse"
+      parameters:
+        - name: data_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - CalendarioService
+    delete:
+      operationId: DeleteData
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: data_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - CalendarioService
+    post:
+      operationId: UpdateData
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: data_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateDataRequest"
+      tags:
+        - CalendarioService
+  "/destinatarios":
+    get:
+      operationId: Listar
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListarDestinatarioResponse"
+      tags:
+        - DestinatarioService
+  "/docas/{uuid}":
+    delete:
+      operationId: Delete
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteDocaResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocaService
+    post:
+      operationId: Update
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiDoca"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/recebimentoapiDoca"
+      tags:
+        - DocaService
+  "/docas/{uuid}/set-status":
+    post:
+      operationId: UpdateStatus
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiDoca"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/recebimentoapiDoca"
+      tags:
+        - DocaService
+  "/documentos-aceite/{documento_aceite_uuid}":
+    get:
+      operationId: GetDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetDocumentoAceiteResponse"
+      parameters:
+        - name: documento_aceite_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocumentoAceiteService
+    delete:
+      operationId: DeleteDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteDocumentoAceiteResponse"
+      parameters:
+        - name: documento_aceite_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocumentoAceiteService
+    post:
+      operationId: UpdateDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateDocumentoAceiteResponse"
+      parameters:
+        - name: documento_aceite_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateDocumentoAceiteRequest"
+      tags:
+        - DocumentoAceiteService
+  "/documentos-aceite/{documento_aceite_uuid}/leituras":
+    get:
+      operationId: ReadingsByDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiReadingsByDocumentoAceiteResponse"
+      parameters:
+        - name: documento_aceite_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocumentoAceiteService
+  "/documentos-aceite/{documento_aceite_uuid}:read":
+    get:
+      operationId: ReadDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiReadDocumentoAceiteResponse"
+      parameters:
+        - name: documento_aceite_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocumentoAceiteService
+  "/entidades/-/webhooks/{hook.uuid}":
+    post:
+      operationId: UpdateWebhook
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiWebhook"
+      parameters:
+        - name: hook.uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateWebhookRequest"
+      tags:
+        - WebhookService
+  "/entidades/-/webhooks/{uuid}":
+    get:
+      operationId: GetWebhook
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiWebhook"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - WebhookService
+    delete:
+      operationId: DeleteWebhook
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - WebhookService
+  "/entidades/{entidadeUUID}/agendas/recepcao":
+    get:
+      operationId: ListAgendasRecepcaoEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListAgendasRecepcaoEntidadeResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: include
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - AgendaService
+  "/entidades/{entidadeUUID}/agendas/search":
+    post:
+      operationId: SearchAgendasEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiSearchAgendasEntidadeResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiSearchAgendasEntidadeRequest"
+      tags:
+        - AgendaService
+  "/entidades/{entidadeUUID}/fornecedores":
+    get:
+      operationId: GetFornecedoresEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetFornecedoresEntidadeResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+  "/entidades/{entidadeUUID}/locais":
+    get:
+      operationId: GetLocaisByEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetLocaisByEntidadeResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+      tags:
+        - LocalService
+  "/entidades/{entidadeUUID}/stats/historico-agendas":
+    post:
+      operationId: HistoricoAgendas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiHistoricoAgendasResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiStatsPeriodoRequest"
+      tags:
+        - StatsService
+  "/entidades/{entidadeUUID}/stats/media-status-descarga":
+    post:
+      operationId: MediaStatusDescarga
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiMediaStatusDescargaResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiStatsPeriodoRequest"
+      tags:
+        - StatsService
+  "/entidades/{entidadeUUID}/stats/resumo-agendas":
+    post:
+      operationId: ResumoAgendas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiResumoAgendasResponse"
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiStatsPeriodoRequest"
+      tags:
+        - StatsService
+  "/entidades/{entidade_uuid}/agendas:getLastEventos":
+    get:
+      operationId: GetLastEventosAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetLastEventosAgendaResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: last_nsu
+          in: query
+          required: false
+          type: string
+          format: int64
+      tags:
+        - AgendaService
+  "/entidades/{entidade_uuid}/calendario":
+    get:
+      operationId: GetCalendarioEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetCalendarioEntidadeResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: ano
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - CalendarioService
+    post:
+      operationId: CadastrarData
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCadastrarDataResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCadastrarDataRequest"
+      tags:
+        - CalendarioService
+  "/entidades/{entidade_uuid}/calendario/periodo":
+    get:
+      operationId: GetCalendarioPeriodo
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetCalendarioPeriodoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: inicio
+          in: query
+          required: false
+          type: string
+        - name: fim
+          in: query
+          required: false
+          type: string
+      tags:
+        - CalendarioService
+  "/entidades/{entidade_uuid}/documentos-aceite":
+    get:
+      operationId: ListDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListDocumentoAceiteResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocumentoAceiteService
+    post:
+      operationId: CreateDocumentoAceite
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCreateDocumentoAceiteResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCreateDocumentoAceiteRequest"
+      tags:
+        - DocumentoAceiteService
+  "/entidades/{entidade_uuid}/documentos-aceite:unread":
+    get:
+      operationId: GetDocumentoAceitePendente
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetDocumentoAceitePendenteResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - DocumentoAceiteService
+  "/entidades/{entidade_uuid}/fornecedores/{fornecedor_uuid}":
+    get:
+      operationId: Get
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiFornecedor"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+  "/entidades/{entidade_uuid}/fornecedores/{fornecedor_uuid}/bloqueios":
+    get:
+      operationId: GetBloqueios
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetBloqueiosFornecedorResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+    post:
+      operationId: CreateBloqueio
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCreateBloqueioFornecedorResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiFornecedorBloqueio"
+      tags:
+        - FornecedorService
+  "/entidades/{entidade_uuid}/fornecedores/{fornecedor_uuid}/usuarios":
+    get:
+      operationId: GetUsuarios
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetUsuariosFornecedorResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+    post:
+      operationId: InserirUsuario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiInserirUsuarioFornecedorResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiFornecedorUsuario"
+      tags:
+        - FornecedorService
+  "/entidades/{entidade_uuid}/fornecedores/{fornecedor_uuid}/usuarios/{usuario_uuid}":
+    delete:
+      operationId: RemoverUsuario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiRemoverUsuarioFornecedorResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+        - name: usuario_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+    post:
+      operationId: AtualizarUsuario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiAtualizarUsuarioFornecedorResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: fornecedor_uuid
+          in: path
+          required: true
+          type: string
+        - name: usuario_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiFornecedorUsuario"
+      tags:
+        - FornecedorService
+  "/entidades/{entidade_uuid}/relatorios/agendas-dia":
+    post:
+      operationId: RelatorioAgendasDia
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiRelatorioAgendasDiaResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiRelatorioAgendasDiaRequest"
+      tags:
+        - AgendaService
+  "/entidades/{entidade_uuid}/relatorios/recebimento-notas":
+    post:
+      operationId: RelatorioRecebimentoNotas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiRelatorioRecebimentoNotasResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiRelatorioRecebimentoNotasRequest"
+      tags:
+        - AgendaService
+  "/entidades/{entidade_uuid}/relatorios/status-descarga":
+    post:
+      operationId: RelatorioStatusDescarga
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiRelatorioStatusDescargaResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiRelatorioStatusDescargaRequest"
+      tags:
+        - AgendaService
+  "/entidades/{entidade_uuid}/status-recebimento":
+    get:
+      operationId: ListStatusRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListStatusRecebimentoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - StatusRecebimentoService
+    post:
+      operationId: CreateStatusRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCreateStatusRecebimentoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCreateStatusRecebimentoRequest"
+      tags:
+        - StatusRecebimentoService
+  "/entidades/{entidade_uuid}/status-recebimento:updateWorkFlow":
+    post:
+      operationId: UpdateStatusRecebimentoWorkFlow
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoWorkFlowResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoWorkFlowRequest"
+      tags:
+        - StatusRecebimentoService
+  "/entidades/{entidade_uuid}/tipos-anotacao":
+    get:
+      operationId: ListTipoAnotacao
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListTipoAnotacaoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoAnotacaoService
+    post:
+      operationId: CreateTipoAnotacao
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCreateTipoAnotacaoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCreateTipoAnotacaoRequest"
+      tags:
+        - TipoAnotacaoService
+  "/entidades/{entidade_uuid}/tipos-carga":
+    get:
+      operationId: List
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListTipoCargaResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoCargaService
+    post:
+      operationId: Create
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiTipoCarga"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiTipoCarga"
+      tags:
+        - TipoCargaService
+  "/entidades/{entidade_uuid}/tipos-documento":
+    get:
+      operationId: ListTipoDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListTipoDocumentoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoDocumentoService
+    post:
+      operationId: CreateTipoDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCreateTipoDocumentoResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCreateTipoDocumentoRequest"
+      tags:
+        - TipoDocumentoService
+  "/entidades/{entidade_uuid}/tipos-volume":
+    get:
+      operationId: ListTiposVolumeEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListTiposVolumeEntidadeResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoVolumeService
+    post:
+      operationId: CreateTipoVolume
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiTipoVolume"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCreateTipoVolumeRequest"
+      tags:
+        - TipoVolumeService
+  "/entidades/{entidade_uuid}/usuarios":
+    post:
+      operationId: ConvidarUsuario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/authUsuario"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/ConvidarUsuarioFornecedorRequestConvite"
+      tags:
+        - FornecedorService
+  "/entidades/{entidade_uuid}/webhooks":
+    get:
+      operationId: ListWebhooks
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListWebhooksResponse"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - WebhookService
+    post:
+      operationId: CreateWebhook
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiWebhook"
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiWebhook"
+      tags:
+        - WebhookService
+  "/locais/{destinatario.localUUID}/agendas":
+    post:
+      operationId: SolicitarAgenda
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiAgenda"
+      parameters:
+        - name: destinatario.localUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiSolicitarAgendaRequest"
+      tags:
+        - AgendaService
+  "/locais/{localUUID}/agendas/search":
+    post:
+      operationId: ListAgendasLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListAgendasLocalResponse"
+      parameters:
+        - name: localUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiListAgendasLocalRequest"
+      tags:
+        - AgendaService
+  "/locais/{localUUID}/agendas/status/diario":
+    get:
+      operationId: StatusDiarioAgendasLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiStatusDiarioAgendasLocalResponse"
+      parameters:
+        - name: localUUID
+          in: path
+          required: true
+          type: string
+        - name: dia
+          in: query
+          required: false
+          type: string
+      tags:
+        - AgendaService
+  "/locais/{localUUID}/fornecedores/{entidadeUUID}/config":
+    get:
+      operationId: GetConfigFornecedor
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiConfigFornecedor"
+      parameters:
+        - name: localUUID
+          in: path
+          required: true
+          type: string
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+      tags:
+        - FornecedorService
+    post:
+      operationId: UpdateConfigFornecedor
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateConfigFornecedorResponse"
+      parameters:
+        - name: localUUID
+          in: path
+          required: true
+          type: string
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiConfigFornecedor"
+      tags:
+        - FornecedorService
+  "/locais/{localUUID}/fornecedores/{fornecedorUUID}/pedidos/{codigoPedido}/disponibilidade-agenda":
+    get:
+      operationId: ConsultarPedidoDestinatario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiConsultarPedidoDestinatarioResponse"
+      parameters:
+        - name: localUUID
+          in: path
+          required: true
+          type: string
+        - name: fornecedorUUID
+          in: path
+          required: true
+          type: string
+        - name: codigoPedido
+          in: path
+          required: true
+          type: string
+      tags:
+        - PedidoService
+  "/locais/{local_uuid}/agendas:disponibilidade":
+    post:
+      operationId: Disponibilidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDisponibilidadeAgendaResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiDisponibilidadeAgendaRequest"
+      tags:
+        - AgendaService
+  "/locais/{local_uuid}/agendas:disponibilidade-calendario":
+    post:
+      operationId: DisponibilidadeCalendario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDisponibilidadeCalendarioAgendaResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiDisponibilidadeCalendarioAgendaRequest"
+      tags:
+        - AgendaService
+  "/locais/{local_uuid}/docas":
+    get:
+      operationId: ListDocas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListDocasResponse"
+      parameters:
+        - name: local_uuid
+          description: UUID do Local de Recebimento.
+          in: path
+          required: true
+          type: string
+        - name: all
+          description: Retornar ou não todas as docas (ativas e inativas).
+          in: query
+          required: false
+          type: boolean
+          format: boolean
+      tags:
+        - DocaService
+    post:
+      operationId: Create
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiDoca"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/recebimentoapiDoca"
+      tags:
+        - DocaService
+  "/locais/{local_uuid}/horarios-recebimento":
+    get:
+      operationId: ListHorariosRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListHorariosRecebimentoResponse"
+      parameters:
+        - name: local_uuid
+          description: UUID do Local de Recebimento
+          in: path
+          required: true
+          type: string
+        - name: dia_semana
+          description: Filtrar dia da semana específico.
+          in: query
+          required: false
+          type: string
+          enum:
+            - DIA_SEMANA_INDEFINIDO
+            - DOMINGO
+            - SEGUNDA
+            - TERCA
+            - QUARTA
+            - QUINTA
+            - SEXTA
+            - SABADO
+          default: DIA_SEMANA_INDEFINIDO
+      tags:
+        - HorarioRecebimentoService
+  "/locais/{local_uuid}/tipos-carga":
+    get:
+      operationId: GetTiposCarga
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetTiposCargaLocalResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: all
+          in: query
+          required: false
+          type: boolean
+          format: boolean
+      tags:
+        - LocalService
+  "/locais/{local_uuid}/tipos-carga/{tipo_carga_uuid}":
+    post:
+      operationId: UpdateTipoCarga
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateTipoCargaLocalResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: tipo_carga_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiLocalTipoCarga"
+      tags:
+        - LocalService
+  "/locais/{local_uuid}/volumes-recebimento":
+    get:
+      operationId: List
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListVolumeRecebimentoResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - VolumeRecebimentoService
+    post:
+      operationId: Create
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiVolumeRecebimento"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiVolumeRecebimento"
+      tags:
+        - VolumeRecebimentoService
+  "/locais/{local_uuid}/volumes-recebimento:consumo":
+    post:
+      operationId: Consumo
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiConsumoVolumeRecebimentoResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiConsumoVolumeRecebimentoRequest"
+      tags:
+        - VolumeRecebimentoService
+  "/locais/{local_uuid}:calcularTempoEntrega":
+    post:
+      operationId: CalcularTempoEntrega
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCalcularTempoEntregaResponse"
+      parameters:
+        - name: local_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCalcularTempoEntregaRequest"
+      tags:
+        - AgendaService
+  "/locais/{uuid}":
+    get:
+      operationId: GetLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - LocalService
+    post:
+      operationId: UpdateLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateLocalRequest"
+      tags:
+        - LocalService
+  "/locais/{uuid}/cobranca-descarga":
+    get:
+      operationId: GetCobrancaDescargaLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetCobrancaDescargaLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - LocalService
+    post:
+      operationId: UpdateCobrancaDescargaLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateCobrancaDescargaLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateCobrancaDescargaLocalRequest"
+      tags:
+        - LocalService
+  "/locais/{uuid}/cobranca-descarga/calcular":
+    post:
+      operationId: CalcularCobrancaDescarga
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCalcularCobrancaDescargaResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCalcularCobrancaDescargaRequest"
+      tags:
+        - LocalService
+  "/locais/{uuid}/expediente":
+    get:
+      operationId: GetExpedienteLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetExpedienteLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - LocalService
+    post:
+      operationId: UpdateExpedienteLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateExpedienteLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateExpedienteLocalRequest"
+      tags:
+        - LocalService
+  "/locais/{uuid}/horario-recebimento":
+    get:
+      operationId: GetHorarioRecebimentoLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetHorarioRecebimentoLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - LocalService
+    post:
+      operationId: UpdateHorarioRecebimentoLocal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateHorarioRecebimentoLocalResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateHorarioRecebimentoLocalRequest"
+      tags:
+        - LocalService
+  "/locais/{uuid}:verificarLeadTime":
+    post:
+      operationId: VerificarLeadTime
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiVerificarLeadTimeResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiVerificarLeadTimeRequest"
+      tags:
+        - LocalService
+  "/locais:getByCNPJ":
+    get:
+      operationId: GetLocalByCNPJ
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiLocal"
+      parameters:
+        - name: cnpj
+          in: query
+          required: false
+          type: string
+      tags:
+        - LocalService
+  "/me/agendas":
+    get:
+      operationId: GetMinhasAgendas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetMinhasAgendasResponse"
+      tags:
+        - AgendaService
+  "/me/pedidos":
+    post:
+      operationId: ListarFromUsuario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListarPedidosFromUsuarioResponse"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiListarPedidosFromUsuarioRequest"
+      tags:
+        - PedidoService
+  "/nfes/{chave}":
+    get:
+      summary: Retorna informações referentes a uma nota fiscal
+      operationId: GetNFE
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiGetNFEResponse"
+      parameters:
+        - name: chave
+          description: Chave de acesso da nota fiscal
+          in: path
+          required: true
+          type: string
+      tags:
+        - NFEService
+  "/nfes/{chave}:checkValidacoes":
+    post:
+      operationId: CheckValidacoes
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCheckValidacoesResponse"
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiCheckValidacoesRequest"
+      tags:
+        - NFEService
+  "/nfes:checkPedidos":
+    get:
+      operationId: CheckPedidosNotas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiCheckPedidosNotasResponse"
+      tags:
+        - AgendaService
+  "/pedidos/{pedido_uuid}:reportSaldoAgendado":
+    get:
+      operationId: ReportSaldoAgendado
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiReportSaldoAgendadoPedidoResponse"
+      parameters:
+        - name: pedido_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - PedidoService
+  "/pedidos/{uuid}":
+    get:
+      operationId: GetPedido
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/recebimentoapiPedido"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - PedidoService
+  "/pedidos:batchReportSaldoAgendado":
+    get:
+      operationId: BatchReportSaldoAgendado
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiBatchReportSaldoAgendadoPedidoResponse"
+      parameters:
+        - name: pedidos_uuid
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - PedidoService
+  "/relatorios/agenda-cobranca/diario":
+    post:
+      operationId: RelatorioDiario
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiRelatorioDiarioResponse"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiRelatorioDiarioRequest"
+      tags:
+        - AgendaCobrancaService
+  "/status-recebimento/{status_recebimento_uuid}":
+    post:
+      operationId: UpdateStatusRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoResponse"
+      parameters:
+        - name: status_recebimento_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateStatusRecebimentoRequest"
+      tags:
+        - StatusRecebimentoService
+  "/tags:listTagsResource":
+    get:
+      operationId: ListTagsResource
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiListTagsResourceResponse"
+      parameters:
+        - name: resource_type
+          in: query
+          required: false
+          type: string
+          enum:
+            - ResourceType_UNKNOWN
+            - ResourceType_TIPO_VEICULO
+          default: ResourceType_UNKNOWN
+        - name: resource_id
+          in: query
+          required: false
+          type: string
+      tags:
+        - ResourceTagService
+  "/tags:updateResource":
+    post:
+      operationId: UpdateTagsResource
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            properties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateTagsResourceRequest"
+      tags:
+        - ResourceTagService
+  "/tipos-anotacao/{tipo_anotacao_uuid}":
+    get:
+      operationId: GetTipoAnotacao
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetTipoAnotacaoResponse"
+      parameters:
+        - name: tipo_anotacao_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoAnotacaoService
+    delete:
+      operationId: DeleteTipoAnotacao
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteTipoAnotacaoResponse"
+      parameters:
+        - name: tipo_anotacao_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoAnotacaoService
+    post:
+      operationId: UpdateTipoAnotacao
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateTipoAnotacaoResponse"
+      parameters:
+        - name: tipo_anotacao_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateTipoAnotacaoRequest"
+      tags:
+        - TipoAnotacaoService
+  "/tipos-carga/{uuid}":
+    get:
+      operationId: Get
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiTipoCarga"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoCargaService
+    post:
+      operationId: Update
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiTipoCarga"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiTipoCarga"
+      tags:
+        - TipoCargaService
+  "/tipos-documento/{tipo_documento_uuid}":
+    get:
+      operationId: GetTipoDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetTipoDocumentoResponse"
+      parameters:
+        - name: tipo_documento_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoDocumentoService
+    delete:
+      operationId: DeleteTipoDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteTipoDocumentoResponse"
+      parameters:
+        - name: tipo_documento_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoDocumentoService
+    post:
+      operationId: UpdateTipoDocumento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiUpdateTipoDocumentoResponse"
+      parameters:
+        - name: tipo_documento_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateTipoDocumentoRequest"
+      tags:
+        - TipoDocumentoService
+  "/tipos-veiculo/{uuid}":
+    delete:
+      operationId: DeleteTipoVeiculo
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteTipoVeiculoResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoVeiculoService
+  "/tipos-volume/{uuid}":
+    get:
+      operationId: GetTipoVolume
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiTipoVolume"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoVolumeService
+    delete:
+      operationId: DeleteTipoVolume
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteTipoVolumeResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - TipoVolumeService
+    post:
+      operationId: UpdateTipoVolume
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiTipoVolume"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiUpdateTipoVolumeRequest"
+      tags:
+        - TipoVolumeService
+  "/v2/me/agendas":
+    post:
+      operationId: GetMinhasAgendasV2
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiGetMinhasAgendasV2Response"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiGetMinhasAgendasV2Request"
+      tags:
+        - AgendaService
+  "/volumes-recebimento/{uuid}":
+    delete:
+      operationId: Delete
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiDeleteVolumeRecebimentoResponse"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - VolumeRecebimentoService
+    post:
+      operationId: Update
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/apiVolumeRecebimento"
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/apiVolumeRecebimento"
+      tags:
+        - VolumeRecebimentoService
+definitions:
+  AgendaConfirmacaoParcial:
+    type: object
+    properties:
+      status:
+        "$ref": "#/definitions/AgendaConfirmacaoParcialStatus"
+      usuario:
+        "$ref": "#/definitions/authUsuario"
+        description: |-
+          Em caso de status "CONFIRMADO" ou "RECUSADO", o campo "usuario" poderá
+          estar vazio caso a ação tenha sido tomada de maneira automática pelo sistema.
+      data:
+        type: string
+    description: ConfirmacaoParcial possui informações relacionadas a uma confirmação
+      parcial executada pelo usuário.
+  AgendaConfirmacaoParcialStatus:
+    type: string
+    enum:
+      - Status_IGNORADO
+      - Status_PENDENTE
+      - Status_CONFIRMADO
+      - Status_RECUSADO
+    default: Status_IGNORADO
+  AgendaDataPeriodo:
+    type: object
+    properties:
+      data:
+        type: string
+      horaInicial:
+        type: string
+      horaFinal:
+        type: string
+  AgendaNotaStatusRecebimento:
+    type: string
+    enum:
+      - PENDENTE
+      - RECEBIDO
+      - NAO_RECEBIDO
+    default: PENDENTE
+  AgendaStatusDescarga:
+    type: string
+    enum:
+      - StatusDescarga_IGNORADO
+      - StatusDescarga_AGUARDANDO
+      - StatusDescarga_VEICULO_PRESENTE
+      - StatusDescarga_EM_DESCARGA
+      - StatusDescarga_CONCLUIDO
+      - StatusDescarga_NAOREALIZADO
+    default: StatusDescarga_IGNORADO
+  AgendaSugestao:
+    type: object
+    properties:
+      selecao_doca:
+        "$ref": "#/definitions/SugestaoSelecaoDoca"
+  AgendaTipoConfirmacaoParcial:
+    type: string
+    enum:
+      - TipoConfirmacaoParcial_INDEFINIDO
+      - RECEBIMENTO
+      - FISCAL
+    default: TipoConfirmacaoParcial_INDEFINIDO
+  CobrancaFatura:
+    type: object
+    properties:
+      numero:
+        type: string
+      valor_original:
+        type: number
+        format: double
+      valor_desconto:
+        type: number
+        format: double
+      valor_liquido:
+        type: number
+        format: double
+  ConsumoVolumeRecebimentoResponseConsumoData:
+    type: object
+    properties:
+      data:
+        type: string
+      volume_uuid:
+        type: string
+      disponivel:
+        type: integer
+        format: int32
+      capacidade:
+        type: integer
+        format: int32
+  ConvidarUsuarioFornecedorRequestConvite:
+    type: object
+    properties:
+      email:
+        type: string
+      nome:
+        type: string
+      sobrenome:
+        type: string
+  DisponibilidadeCalendarioAgendaResponseDia:
+    type: object
+    properties:
+      dia:
+        type: string
+      disponivel:
+        type: boolean
+        format: boolean
+      restricao:
+        type: string
+  DocaEndereco:
+    type: object
+    properties:
+      endereco_uuid:
+        type: string
+  EntidadeTipoPessoa:
+    type: string
+    enum:
+      - TipoPessoa_FISICA
+      - TipoPessoa_JURIDICA
+    default: TipoPessoa_FISICA
+  LocalModeloTempoDescarga:
+    type: string
+    enum:
+      - ModeloTempoDescarga_MANUAL
+      - ModeloTempoDescarga_AUTOMATICO
+    default: ModeloTempoDescarga_MANUAL
+  LocalNotaFiscalLimits:
+    type: object
+    properties:
+      lead_time_dias:
+        type: integer
+        format: int32
+      lead_time_adicional_dias:
+        type: integer
+        format: int32
+      lead_time_mensagem:
+        type: string
+      antecipacao_emissao_horas:
+        type: integer
+        format: int32
+  LocalRecebimentoMedias:
+    type: object
+    properties:
+      atrasoChegada:
+        type: integer
+        format: int32
+      inicioDescargaComprometido:
+        type: integer
+        format: int32
+      inicioDescargaPresenca:
+        type: integer
+        format: int32
+      tempoDescarga:
+        type: integer
+        format: int32
+      tempoTotalComprometido:
+        type: integer
+        format: int32
+      tempoTotalPresenca:
+        type: integer
+        format: int32
+  LocalTipoAgendamento:
+    type: string
+    enum:
+      - TipoAgendamento_INDEFINIDO
+      - TipoAgendamento_LIVRE
+      - TipoAgendamento_RESTRICAO_SOLICITADAS
+      - TipoAgendamento_RESTRICAO_CONFIRMADAS
+    default: TipoAgendamento_INDEFINIDO
+  LocalTipoRestricaoAgenda:
+    type: string
+    enum:
+      - TipoRestricaoAgenda_INDEFINIDO
+      - TipoRestricaoAgenda_XML
+      - TipoRestricaoAgenda_PEDIDO
+      - TipoRestricaoAgenda_XML_PEDIDO
+    default: TipoRestricaoAgenda_INDEFINIDO
+  NotaFiscalCobrancaDuplicata:
+    type: object
+    properties:
+      numero:
+        type: string
+      data_vencimento:
+        type: string
+      valor:
+        type: number
+        format: double
+  NotaFiscalTransporteVolume:
+    type: object
+    properties:
+      especie:
+        type: string
+      marca:
+        type: string
+      quantidade:
+        type: string
+        format: int64
+      peso_liquido:
+        type: number
+        format: double
+      peso_bruto:
+        type: number
+        format: double
+  OrderColumn:
+    type: object
+    properties:
+      name:
+        type: string
+      desc:
+        type: boolean
+        format: boolean
+  PedidoICMSTotal:
+    type: object
+    properties:
+      valor_bc:
+        type: number
+        format: double
+        title: Base de Cálculo do ICMS
+      valor_icms:
+        type: number
+        format: double
+        title: Valor Total do ICMS
+      valor_bcst:
+        type: number
+        format: double
+        title: Base de Cálculo do ICMS ST
+      valor_st:
+        type: number
+        format: double
+        title: Valor Total do ICMS ST
+      valor_produtos:
+        type: number
+        format: double
+        title: Valor Total dos produtos e serviços
+      valor_frete:
+        type: number
+        format: double
+        title: Valor Total do Frete
+      valor_desconto:
+        type: number
+        format: double
+      valor_ii:
+        type: number
+        format: double
+        title: Valor Total do II
+      valor_ipi:
+        type: number
+        format: double
+        title: Valor Total do IPI
+      valor_pis:
+        type: number
+        format: double
+        title: Valor do PIS
+      valor_cofins:
+        type: number
+        format: double
+        title: Valor do COFINS
+      valor_outro:
+        type: number
+        format: double
+        title: Outras Despesas acessórias
+      valor_total:
+        type: number
+        format: double
+        title: Valor Total da NF-e
+    title: Grupo de Valores Totais referentes ao ICMS
+  PedidoItemEntrega:
+    type: object
+    properties:
+      uuid:
+        type: string
+      quantidade:
+        type: number
+        format: double
+  PedidoItemImposto:
+    type: object
+    properties:
+      cofins:
+        "$ref": "#/definitions/PedidoItemImpostoCofins"
+      icms:
+        "$ref": "#/definitions/PedidoItemImpostoICMS"
+      icmsst:
+        "$ref": "#/definitions/PedidoItemImpostoICMSST"
+      ipi:
+        "$ref": "#/definitions/PedidoItemImpostoIPI"
+      pis:
+        "$ref": "#/definitions/PedidoItemImpostoPIS"
+  PedidoItemImpostoCofins:
+    type: object
+    properties:
+      aliq:
+        type: number
+        format: double
+      valor:
+        type: number
+        format: double
+  PedidoItemImpostoICMS:
+    type: object
+    properties:
+      aliq:
+        type: number
+        format: double
+      valor:
+        type: number
+        format: double
+      cst:
+        type: integer
+        format: int32
+      origem:
+        type: integer
+        format: int32
+  PedidoItemImpostoICMSST:
+    type: object
+    properties:
+      aliq:
+        type: number
+        format: double
+      valor:
+        type: number
+        format: double
+  PedidoItemImpostoIPI:
+    type: object
+    properties:
+      aliq:
+        type: number
+        format: double
+      valor:
+        type: number
+        format: double
+      cst:
+        type: integer
+        format: int32
+  PedidoItemImpostoPIS:
+    type: object
+    properties:
+      aliq:
+        type: number
+        format: double
+      valor:
+        type: number
+        format: double
+      cst:
+        type: integer
+        format: int32
+  PedidoItemUnidadeMedida:
+    type: object
+    properties:
+      unidade:
+        type: string
+      unitario:
+        type: number
+        format: double
+      total:
+        type: number
+        format: double
+  PerfilTelefone:
+    type: object
+    properties:
+      numero:
+        type: string
+  RelatorioDiarioResponseTotais:
+    type: object
+    properties:
+      valorTotal:
+        type: number
+        format: double
+      valorPago:
+        type: number
+        format: double
+      valorPendente:
+        type: number
+        format: double
+      valorEstornado:
+        type: number
+        format: double
+  SearchAgendasEntidadeRequestFiltroStatus:
+    type: object
+    properties:
+      todos:
+        type: boolean
+        format: boolean
+      status:
+        "$ref": "#/definitions/apiAgendaStatus"
+  StatsRecebimentoNota:
+    type: object
+    properties:
+      qtd_notas:
+        type: integer
+        format: int32
+      recebidas:
+        type: integer
+        format: int32
+      negadas:
+        type: integer
+        format: int32
+      pendentes:
+        type: integer
+        format: int32
+  StatusDiarioAgendasLocalResponseStatusFluxo:
+    type: object
+    properties:
+      status:
+        "$ref": "#/definitions/apiStatusRecebimentoStatus"
+      quantidade:
+        type: integer
+        format: int32
+  StatusRecebimentoCategoria:
+    type: string
+    enum:
+      - UNKNOWN
+      - PENDENTE
+      - EM_PROGRESSO
+      - FINALIZADO
+      - CANCELADO
+    default: UNKNOWN
+  StatusRecebimentoConexao:
+    type: object
+    properties:
+      to_status_uuid:
+        type: string
+      label:
+        type: string
+      start:
+        type: boolean
+        format: boolean
+      all:
+        type: boolean
+        format: boolean
+      from_status_uuid:
+        type: string
+  SugestaoSelecaoDoca:
+    type: object
+    properties:
+      doca_uuid:
+        type: string
+      docas:
+        type: array
+        items:
+          "$ref": "#/definitions/SugestaoSelecaoDocaDoca"
+      sem_doca:
+        "$ref": "#/definitions/SugestaoSelecaoDocaStats"
+  SugestaoSelecaoDocaDoca:
+    type: object
+    properties:
+      doca:
+        "$ref": "#/definitions/recebimentoapiDoca"
+      stats:
+        "$ref": "#/definitions/SugestaoSelecaoDocaStats"
+  SugestaoSelecaoDocaStats:
+    type: object
+    properties:
+      produtos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiNotaFiscalProduto"
+      quantidade:
+        type: number
+        format: double
+      porcentagem:
+        type: number
+        format: double
+  UpdateStatusRecebimentoNotaRequestAgendaAnotacaoTipoAnotacao:
+    type: object
+    properties:
+      uuid:
+        type: string
+  UserAuthenticationMethod:
+    type: string
+    enum:
+      - AuthenticationMethod_NONE
+      - AuthenticationMethod_USERNAME
+      - AuthenticationMethod_EMAIL
+    default: AuthenticationMethod_NONE
+  UsuarioAuthMethod:
+    type: string
+    enum:
+      - AuthMethod_NONE
+      - AuthMethod_USERNAME
+      - AuthMethod_EMAIL
+    default: AuthMethod_NONE
+  VolumeRecebimentoDiaCapacidade:
+    type: object
+    properties:
+      dia:
+        type: string
+      capacidade:
+        type: integer
+        format: int32
+      dia_fim:
+        type: string
+  WebhookEvent:
+    type: string
+    enum:
+      - AGENDA_SOLICITADA
+      - AGENDA_CONFIRMADA
+      - AGENDA_CONFIRMADA_PARCIAL_RECEBIMENTO
+      - AGENDA_CONFIRMADA_PARCIAL_FISCAL
+      - AGENDA_CANCELADA
+    default: AGENDA_SOLICITADA
+  accountUser:
+    type: object
+    properties:
+      uuid:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      createdAt:
+        type: string
+        format: int64
+      type:
+        "$ref": "#/definitions/accountUserType"
+      authenticationMethod:
+        "$ref": "#/definitions/UserAuthenticationMethod"
+  accountUserProfile:
+    type: object
+    properties:
+      user:
+        "$ref": "#/definitions/accountUser"
+      profile:
+        "$ref": "#/definitions/profileProfile"
+  accountUserType:
+    type: string
+    enum:
+      - Type_API
+      - Type_USER
+    default: Type_API
+  agendarentidadeapiEntidade:
+    type: object
+    properties:
+      uuid:
+        type: string
+      tipo:
+        "$ref": "#/definitions/apiEntidadeTipo"
+      identidadeRaiz:
+        type: string
+        title: Em caso de Pessoa Física, CPF completo, caso contrário, somente 8 digitos
+          referente à parte matriz do CNPJ
+      nome:
+        type: string
+      nomeFantasia:
+        type: string
+      dataCadastro:
+        type: string
+      logoPersonalizada:
+        type: boolean
+        format: boolean
+      identidade:
+        type: string
+        description: |-
+          Retorno da identidade "completa".
+          Diferente do campo "identidadeRaiz", o campo "identidade" em caso de ser um CNPJ,
+          sempre retornará o CNPJ 1 da raiz.
+  agendarentregapedidoPedido:
+    type: object
+    properties:
+      uuid:
+        type: string
+      codigo:
+        type: string
+        title: Código de pedido interno da empresa que gerou o pedido (emitente)
+      comprador:
+        "$ref": "#/definitions/accountUserProfile"
+      fornecedor:
+        "$ref": "#/definitions/entidadeapiFilial"
+      emitente:
+        "$ref": "#/definitions/entidadeapiFilial"
+      destinatario:
+        "$ref": "#/definitions/entidadeapiFilial"
+      dataCadastro:
+        type: string
+      dataEmissao:
+        type: string
+      observacoes:
+        type: string
+      entrega:
+        "$ref": "#/definitions/pedidoPedidoEntrega"
+        title: Previsão da data de entrega
+      status:
+        "$ref": "#/definitions/pedidoStatusPedido"
+      itens:
+        type: array
+        items:
+          "$ref": "#/definitions/agendarentregapedidoPedidoItem"
+      saldo:
+        "$ref": "#/definitions/pedidoResumoSaldo"
+      duplicatas:
+        type: array
+        items:
+          "$ref": "#/definitions/pedidoPedidoDuplicata"
+      icms_total:
+        "$ref": "#/definitions/PedidoICMSTotal"
+  agendarentregapedidoPedidoItem:
+    type: object
+    properties:
+      uuid:
+        type: string
+        title: Código interno do item do pedido, esse campo é ignorando em operações
+          de importação
+      produto:
+        "$ref": "#/definitions/agendarentregapedidoProduto"
+        title: Produto
+      sequencia:
+        type: integer
+        format: int32
+        title: Sequencial do item no pedido
+      quantidade:
+        type: number
+        format: float
+        title: Quantidade de itens do produto
+      preco_unitario:
+        type: number
+        format: float
+        title: Preço unitário
+      preco_total:
+        type: number
+        format: float
+        title: Preço total
+      volume_recebimento:
+        type: number
+        format: float
+        title: Volume de Recebimento total do produto no pedido
+      volume_recebimento_unitario:
+        type: number
+        format: float
+        title: Volume de Recebimento unitário do item
+      saldo:
+        "$ref": "#/definitions/pedidoResumoSaldo"
+        title: Resumo de saldos do pedido, essa informação é cálculada pelo portal
+      ncm:
+        type: string
+        title: Código NCM
+      cfop:
+        type: integer
+        format: int32
+        title: Tipo de CFOP do produto, utilizado para comparação com NFE
+      imposto:
+        "$ref": "#/definitions/PedidoItemImposto"
+        title: Informações de imposto
+      valor_desconto:
+        type: number
+        format: double
+      valor_frete:
+        type: number
+        format: double
+      valor_outro:
+        type: number
+        format: double
+      medidas:
+        type: array
+        items:
+          "$ref": "#/definitions/PedidoItemUnidadeMedida"
+  agendarentregapedidoProduto:
+    type: object
+    properties:
+      ean:
+        type: string
+        title: Código EAN do Produto
+      descricao:
+        type: string
+        title: Descrição
+      cor:
+        type: string
+        title: Cor
+      especificacao:
+        type: string
+        title: Especificação
+      unidade_medida_unitario:
+        type: string
+        title: Unidade medida unitário
+      embalagem:
+        type: string
+        title: Embalagem
+      codigo_fornecedor:
+        type: string
+        title: Código do produto do fornecedor
+      codigo_destinatario:
+        type: string
+        title: Código do produto do destinatário
+      unidade_medida_produto:
+        type: string
+        title: Unidade de medida do produto
+      quantidade_itens_unitario:
+        type: number
+        format: float
+        title: Quantidade itens unitário
+  agendarrecebimentoapiEntidade:
+    type: object
+    properties:
+      numero_inscricao:
+        type: string
+        description: Número de inscrição. Para empresas é retornado o CNPJ, e em caso
+          de pessoa física, é retornado o CPF.
+      razao_social:
+        type: string
+        description: Razão Social da Empresa, caso seja pessoa física, será retornado
+          o nome completo.
+      nome_fantasia:
+        type: string
+        description: Nome Fantasia da Empresa, caso seja pessoa física, será retornado
+          o nome completo.
+    title: Recurso que representa uma Empresa ou Pessoa Física
+  apiAdicionarNotasAgendaRequest:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      chaves:
+        type: array
+        items:
+          type: string
+      validate:
+        type: boolean
+        format: boolean
+  apiAdicionarNotasAgendaResponse:
+    type: object
+  apiAgendaCarga:
+    type: object
+    properties:
+      tipo:
+        "$ref": "#/definitions/apiTipoCarga"
+      qtdVolumes:
+        type: number
+        format: double
+      paletizada:
+        type: boolean
+        format: boolean
+      volume:
+        "$ref": "#/definitions/apiTipoVolume"
+      quantidade:
+        type: number
+        format: double
+  apiAgendaCobranca:
+    type: object
+    properties:
+      hasCobranca:
+        type: boolean
+        format: boolean
+      hasPendencia:
+        type: boolean
+        format: boolean
+  apiAgendaCobrancaStatus:
+    type: string
+    enum:
+      - Status_EM_ABERTO
+      - Status_BAIXADO
+      - Status_ESTORNADO
+    default: Status_EM_ABERTO
+  apiAgendaCriadoPor:
+    type: string
+    enum:
+      - CriadoPor_USUARIO
+      - CriadoPor_SISTEMA
+    default: CriadoPor_USUARIO
+  apiAgendaDestinatario:
+    type: object
+    properties:
+      local:
+        "$ref": "#/definitions/apiLocal"
+  apiAgendaDevolucao:
+    type: object
+    properties:
+      possui:
+        type: boolean
+        format: boolean
+      observacao:
+        type: string
+  apiAgendaDocumento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      tamanho:
+        type: integer
+        format: int32
+      chave_nfe:
+        type: string
+      tipo:
+        "$ref": "#/definitions/apiTipoDocumento"
+  apiAgendaEvento:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      evento:
+        "$ref": "#/definitions/apiAgendaEventoEvento"
+      evento_fluxo:
+        "$ref": "#/definitions/apiStatusRecebimentoStatus"
+      observacao:
+        type: string
+      data_evento:
+        type: string
+      origem:
+        "$ref": "#/definitions/apiAgendaEventoOrigem"
+      usuario:
+        "$ref": "#/definitions/authUsuario"
+  apiAgendaEventoEvento:
+    type: string
+    enum:
+      - EVENTO_SOLICITACAO
+      - EVENTO_CONFIRMACAO
+      - EVENTO_CANCELAMENTO
+      - EVENTO_SOLICITACAO_JANELA
+      - EVENTO_CONFIRMACAO_JANELA
+      - EVENTO_REAGENDAMENTO
+      - EVENTO_CONFIRMACAO_PARCIAL_RECEBIMENTO
+      - EVENTO_CONFIRMACAO_PARCIAL_FISCAL
+      - EVENTO_DESCARGA_VEICULO_PRESENTE
+      - EVENTO_DESCARGA_EM_DESCARGA
+      - EVENTO_DESCARGA_CONCLUIDO
+      - EVENTO_DESCARGA_NAO_REALIZADO
+    default: EVENTO_SOLICITACAO
+  apiAgendaEventoOrigem:
+    type: string
+    enum:
+      - USUARIO
+      - SISTEMA
+    default: USUARIO
+  apiAgendaPedidoStatusRecebimento:
+    type: string
+    enum:
+      - PENDENTE
+      - RECEBIDO
+      - NAO_RECEBIDO
+    default: PENDENTE
+  apiAgendaPeriodo:
+    type: object
+    properties:
+      data:
+        type: string
+      hora_inicio:
+        type: string
+      duracao:
+        type: integer
+        format: int32
+  apiAgendaRemetente:
+    type: object
+    properties:
+      transportadora:
+        type: boolean
+        format: boolean
+      entidade:
+        "$ref": "#/definitions/entidadeentidadeEntidade"
+  apiAgendaStats:
+    type: object
+    properties:
+      volumeNotas:
+        type: number
+        format: double
+      volumePedidos:
+        type: number
+        format: double
+      saldo_pedidos:
+        "$ref": "#/definitions/apiResumoSaldoPedido"
+      skuNotas:
+        type: integer
+        format: int32
+      recebimento_notas:
+        "$ref": "#/definitions/StatsRecebimentoNota"
+  apiAgendaStatus:
+    type: string
+    enum:
+      - Status_SOLICITADA
+      - Status_SOLICITADA_JANELA
+      - Status_CONFIRMADA
+      - Status_CANCELADA
+      - Status_FINALIZADA
+    default: Status_SOLICITADA
+  apiAgendaStatusRecebimento:
+    type: object
+    properties:
+      status:
+        "$ref": "#/definitions/apiStatusRecebimentoStatus"
+  apiAgendaVeiculo:
+    type: object
+    properties:
+      placa:
+        type: string
+      motorista:
+        type: string
+      tipo:
+        "$ref": "#/definitions/apiTipoVeiculo"
+  apiAtualizarQuantidadeEntregaItensPedidoRequest:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      pedido_uuid:
+        type: string
+      itens:
+        type: object
+        additionalProperties:
+          type: number
+          format: double
+  apiAtualizarQuantidadeEntregaItensPedidoResponse:
+    type: object
+  apiAtualizarUsuarioFornecedorResponse:
+    type: object
+  apiBaixarAgendaCobrancaRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      preview:
+        type: boolean
+        format: boolean
+      valorPago:
+        type: number
+        format: double
+        description: Valor efetivamente pago.
+      valorTroco:
+        type: number
+        format: double
+        description: Valor de troco.
+  apiBaixarAgendaCobrancaResponse:
+    type: object
+  apiBatchGetAgendasResponse:
+    type: object
+    properties:
+      agendas:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/recebimentoapiAgenda"
+  apiBatchGetPedidosAgendasResponse:
+    type: object
+    properties:
+      agendas:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiGetPedidosAgendaResponse"
+  apiBatchReportSaldoAgendadoPedidoResponse:
+    type: object
+    properties:
+      pedidos:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiReportSaldoAgendadoPedidoResponse"
+  apiCadastrarAgendaRequest:
+    type: object
+    properties:
+      usuario_solicitante:
+        type: string
+      solicitacao:
+        "$ref": "#/definitions/apiSolicitarAgendaRequest"
+  apiCadastrarDataRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      calendario:
+        "$ref": "#/definitions/apiCalendario"
+  apiCadastrarDataResponse:
+    type: object
+  apiCadastroAnotacaoAgendaRequest:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      agenda_anotacao:
+        "$ref": "#/definitions/recebimentoapiAgendaAnotacao"
+  apiCalcularCobrancaDescargaRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      remetente_entidade_uuid:
+        type: string
+      quantidade:
+        type: number
+        format: double
+      tipo_volume_uuid:
+        type: string
+  apiCalcularCobrancaDescargaResponse:
+    type: object
+    properties:
+      isento:
+        type: boolean
+        format: boolean
+      valor:
+        type: number
+        format: double
+      valor_unitario:
+        type: number
+        format: double
+  apiCalcularTempoEntregaRequest:
+    type: object
+    properties:
+      local_uuid:
+        type: string
+      quantidade_volume:
+        type: integer
+        format: int32
+      tipo_volume:
+        type: string
+  apiCalcularTempoEntregaResponse:
+    type: object
+    properties:
+      pode_alterar:
+        type: boolean
+        format: boolean
+      tempo_descarga:
+        type: integer
+        format: int32
+  apiCalendario:
+    type: object
+    properties:
+      uuid:
+        type: string
+      entidade_uuid:
+        type: string
+      descricao:
+        type: string
+      comunicado:
+        type: string
+      dia_inicio:
+        type: string
+      dia_fim:
+        type: string
+      hora_inicio:
+        type: string
+      hora_fim:
+        type: string
+      locais:
+        type: array
+        items:
+          "$ref": "#/definitions/apiLocal"
+      data_cadastro:
+        type: string
+      usuario_uuid:
+        type: string
+      notificar_fornecedores:
+        type: boolean
+        format: boolean
+      notificar_colaboradores:
+        type: boolean
+        format: boolean
+  apiCancelarAgendaRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      observacoes:
+        type: string
+  apiCheckPedidosNotasRequestNota:
+    type: object
+    properties:
+      chave:
+        type: string
+  apiCheckPedidosNotasRequestPedido:
+    type: object
+    properties:
+      codigo:
+        type: string
+  apiCheckPedidosNotasResponse:
+    type: object
+  apiCheckValidacoesRequest:
+    type: object
+    properties:
+      chave:
+        type: string
+      pedidos:
+        type: array
+        items:
+          type: string
+      validacao_externa:
+        type: boolean
+        format: boolean
+  apiCheckValidacoesResponse:
+    type: object
+    properties:
+      pode_agendar:
+        type: boolean
+        format: boolean
+        description: |-
+          Informa se a NFE pode ou não ser agendada.
+          Esse campo estará falso quando existir pelo menos 1 item de validação que não possa ser agendado.
+      divergencias:
+        type: array
+        items:
+          "$ref": "#/definitions/apiCheckValidacoesResponseValidacao"
+  apiCheckValidacoesResponseValidacao:
+    type: object
+    properties:
+      tipo:
+        type: string
+      subtipo:
+        type: string
+      item_id:
+        type: integer
+        format: int32
+      valor_nota:
+        type: string
+      valor_pedido:
+        type: string
+      adicional:
+        type: string
+      descricao:
+        type: string
+        title: Contém a "descrição" sobre este tipo apresentável ao usuário
+      formatacao:
+        type: string
+        title: define os tipos de formatação do campo (moeda, texto, porcentagem,
+          etc)
+      pode_agendar:
+        type: boolean
+        format: boolean
+        description: Informa se este erro de validação pode ou não ser agendado.
+  apiCobrancaDescarga:
+    type: object
+    properties:
+      ativo:
+        type: boolean
+        format: boolean
+      cobrar_todos:
+        type: boolean
+        format: boolean
+      preco_volumes:
+        type: object
+        additionalProperties:
+          type: number
+          format: double
+  apiConfigFornecedor:
+    type: object
+    properties:
+      local:
+        "$ref": "#/definitions/apiLocal"
+      entidadeRemetente:
+        "$ref": "#/definitions/agendarentidadeapiEntidade"
+      confirmaJanela:
+        type: boolean
+        format: boolean
+      agendamentoSemJanela:
+        type: boolean
+        format: boolean
+      agendamentoSemDanfe:
+        type: boolean
+        format: boolean
+      horasNotificacaoJanela:
+        type: integer
+        format: int32
+      horasCancelamentoJanela:
+        type: integer
+        format: int32
+      emailsConfirmacao:
+        type: array
+        items:
+          type: string
+      cobrarDescarga:
+        type: boolean
+        format: boolean
+      diasSemana:
+        type: array
+        items:
+          type: integer
+          format: int32
+      nfe_lead_time:
+        type: string
+        format: int64
+  apiConfirmarAgendaJanelaRequest:
+    type: object
+    properties:
+      agendaUUID:
+        type: string
+      carga:
+        "$ref": "#/definitions/apiConfirmarAgendaJanelaRequestCarga"
+      veiculo:
+        "$ref": "#/definitions/apiConfirmarAgendaJanelaRequestVeiculo"
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiConfirmarAgendaJanelaRequestNotaFiscal"
+      observacoes:
+        type: string
+      remetente:
+        "$ref": "#/definitions/apiConfirmarAgendaJanelaRequestRemetente"
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestPedido"
+  apiConfirmarAgendaJanelaRequestCarga:
+    type: object
+    properties:
+      tipoVolumeUUID:
+        type: string
+      quantidade:
+        type: number
+        format: double
+  apiConfirmarAgendaJanelaRequestNotaFiscal:
+    type: object
+    properties:
+      chave:
+        type: string
+  apiConfirmarAgendaJanelaRequestRemetente:
+    type: object
+    properties:
+      transportadora:
+        type: boolean
+        format: boolean
+  apiConfirmarAgendaJanelaRequestVeiculo:
+    type: object
+    properties:
+      placa:
+        type: string
+      motorista:
+        type: string
+      tipoVeiculoUUID:
+        type: string
+  apiConfirmarAgendaRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      periodo:
+        "$ref": "#/definitions/apiAgendaPeriodo"
+      docas:
+        type: array
+        items:
+          type: string
+      observacoes:
+        type: string
+      devolucao:
+        "$ref": "#/definitions/apiAgendaDevolucao"
+      tipo_confirmacao:
+        "$ref": "#/definitions/AgendaTipoConfirmacaoParcial"
+  apiConfirmarRecebimentoAgendaRequest:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      status_uuid:
+        type: string
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiConfirmarRecebimentoAgendaRequestNota"
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiConfirmarRecebimentoAgendaRequestPedido"
+  apiConfirmarRecebimentoAgendaRequestNota:
+    type: object
+    properties:
+      chave:
+        type: string
+      recebido:
+        type: boolean
+        format: boolean
+  apiConfirmarRecebimentoAgendaRequestPedido:
+    type: object
+    properties:
+      pedido_uuid:
+        type: string
+      recebido:
+        type: boolean
+        format: boolean
+  apiConfirmarRecebimentoAgendaResponse:
+    type: object
+  apiConsultarPedidoDestinatarioResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiPedido"
+        title: Retorna uma lista de pedidos, pelo fato de um mesmo local de entrega
+          possuir vários CNPJs
+  apiConsumoVolumeRecebimentoRequest:
+    type: object
+    properties:
+      local_uuid:
+        type: string
+      data_inicio:
+        type: string
+      data_fim:
+        type: string
+  apiConsumoVolumeRecebimentoResponse:
+    type: object
+    properties:
+      consumo:
+        type: array
+        items:
+          "$ref": "#/definitions/ConsumoVolumeRecebimentoResponseConsumoData"
+  apiCreateBloqueioFornecedorResponse:
+    type: object
+  apiCreateDocumentoAceiteRequest:
+    type: object
+    properties:
+      documento_aceite:
+        "$ref": "#/definitions/apiDocumentoAceite"
+      entidade_uuid:
+        type: string
+  apiCreateDocumentoAceiteResponse:
+    type: object
+  apiCreateDownloadLinkDocumentoResponse:
+    type: object
+    properties:
+      download_link:
+        type: string
+  apiCreateStatusRecebimentoRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      status:
+        "$ref": "#/definitions/recebimentoapiStatusRecebimento"
+  apiCreateStatusRecebimentoResponse:
+    type: object
+  apiCreateTipoAnotacaoRequest:
+    type: object
+    properties:
+      tipo_anotacao:
+        "$ref": "#/definitions/recebimentoapiTipoAnotacao"
+      entidade_uuid:
+        type: string
+  apiCreateTipoAnotacaoResponse:
+    type: object
+  apiCreateTipoDocumentoRequest:
+    type: object
+    properties:
+      tipo_documento:
+        "$ref": "#/definitions/apiTipoDocumento"
+      entidade_uuid:
+        type: string
+  apiCreateTipoDocumentoResponse:
+    type: object
+  apiCreateTipoVolumeRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      tipo:
+        "$ref": "#/definitions/apiTipoVolume"
+  apiDeleteBloqueioFornecedorResponse:
+    type: object
+  apiDeleteDocaResponse:
+    type: object
+  apiDeleteDocumentoAceiteResponse:
+    type: object
+  apiDeleteTipoAnotacaoResponse:
+    type: object
+  apiDeleteTipoDocumentoResponse:
+    type: object
+  apiDeleteTipoVeiculoResponse:
+    type: object
+  apiDeleteTipoVolumeResponse:
+    type: object
+  apiDeleteVolumeRecebimentoResponse:
+    type: object
+  apiDiaSemanaHorario:
+    type: object
+    properties:
+      inicio:
+        type: string
+      fim:
+        type: string
+  apiDisponibilidadeAgendaRequest:
+    type: object
+    properties:
+      local_uuid:
+        type: string
+      tipo_carga_uuid:
+        type: string
+      data:
+        type: string
+      tempo_descarga:
+        type: integer
+        format: int32
+      qtd_volumes:
+        type: number
+        format: double
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestNotaFiscal"
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestPedido"
+      remetente_uuid:
+        type: string
+      agenda_uuid:
+        type: string
+  apiDisponibilidadeAgendaResponse:
+    type: object
+    properties:
+      periodos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDisponibilidadeAgendaResponsePeriodo"
+  apiDisponibilidadeAgendaResponseHorario:
+    type: object
+    properties:
+      inicio:
+        type: string
+      fim:
+        type: string
+      disponivel:
+        type: boolean
+        format: boolean
+  apiDisponibilidadeAgendaResponsePeriodo:
+    type: object
+    properties:
+      inicio:
+        type: string
+      fim:
+        type: string
+      horarios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDisponibilidadeAgendaResponseHorario"
+  apiDisponibilidadeCalendarioAgendaRequest:
+    type: object
+    properties:
+      local_uuid:
+        type: string
+      tipo_carga_uuid:
+        type: string
+      data_inicio:
+        type: string
+      data_fim:
+        type: string
+      tempo_descarga:
+        type: integer
+        format: int32
+      qtd_volumes:
+        type: number
+        format: double
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestNotaFiscal"
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestPedido"
+      remetente_uuid:
+        type: string
+      agenda_uuid:
+        type: string
+  apiDisponibilidadeCalendarioAgendaResponse:
+    type: object
+    properties:
+      dias:
+        type: array
+        items:
+          "$ref": "#/definitions/DisponibilidadeCalendarioAgendaResponseDia"
+  apiDocumentoAceite:
+    type: object
+    properties:
+      uuid:
+        type: string
+      titulo:
+        type: string
+      documento:
+        type: string
+      ativo:
+        type: boolean
+        format: boolean
+      data_cadastro:
+        type: string
+  apiDocumentoAceiteLeituraUsuario:
+    type: object
+    properties:
+      usuario:
+        "$ref": "#/definitions/authUsuario"
+      data_aceite:
+        type: string
+  apiEntidadeTipo:
+    type: string
+    enum:
+      - TipoEntidade_FISICA
+      - TipoEntidade_JURIDICA
+    default: TipoEntidade_FISICA
+  apiEstornarAgendaCobrancaRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      motivo:
+        type: string
+  apiEstornarAgendaCobrancaResponse:
+    type: object
+  apiFornecedor:
+    type: object
+    properties:
+      entidade:
+        "$ref": "#/definitions/agendarentidadeapiEntidade"
+  apiFornecedorBloqueio:
+    type: object
+    properties:
+      uuid:
+        type: string
+      inicio:
+        type: string
+      fim:
+        type: string
+      motivo:
+        type: string
+  apiFornecedorUsuario:
+    type: object
+    properties:
+      usuario:
+        "$ref": "#/definitions/authUsuario"
+      acesso_pedidos:
+        type: boolean
+        format: boolean
+  apiGetAgendaCobrancaAgendaResponse:
+    type: object
+    properties:
+      hasCobranca:
+        type: boolean
+        format: boolean
+      hasPendencia:
+        type: boolean
+        format: boolean
+      agendaCobranca:
+        "$ref": "#/definitions/apiAgendaCobranca"
+  apiGetAgendaResponse:
+    type: object
+    properties:
+      agenda:
+        "$ref": "#/definitions/recebimentoapiAgenda"
+  apiGetAnotacoesAgendaResponse:
+    type: object
+    properties:
+      anotacoes:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiAgendaAnotacao"
+  apiGetBloqueiosFornecedorResponse:
+    type: object
+    properties:
+      bloqueios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiFornecedorBloqueio"
+  apiGetCalendarioEntidadeResponse:
+    type: object
+    properties:
+      calendarios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiCalendario"
+  apiGetCalendarioPeriodoResponse:
+    type: object
+    properties:
+      calendarios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiCalendario"
+  apiGetCobrancaDescargaLocalResponse:
+    type: object
+    properties:
+      cobranca_descarga:
+        "$ref": "#/definitions/apiCobrancaDescarga"
+  apiGetDataResponse:
+    type: object
+    properties:
+      calendario:
+        "$ref": "#/definitions/apiCalendario"
+  apiGetDocumentoAceitePendenteResponse:
+    type: object
+    properties:
+      documento_aceite:
+        "$ref": "#/definitions/apiDocumentoAceite"
+  apiGetDocumentoAceiteResponse:
+    type: object
+    properties:
+      documento_aceite:
+        "$ref": "#/definitions/apiDocumentoAceite"
+  apiGetDocumentosAgendaResponse:
+    type: object
+    properties:
+      documentos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiAgendaDocumento"
+  apiGetEventosAgendaResponse:
+    type: object
+    properties:
+      eventos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiAgendaEvento"
+  apiGetExpedienteLocalResponse:
+    type: object
+    properties:
+      expediente:
+        "$ref": "#/definitions/recebimentoapiDiaSemana"
+  apiGetFiliaisLocalResponse:
+    type: object
+    properties:
+      filiais:
+        type: array
+        items:
+          "$ref": "#/definitions/filialFilial"
+  apiGetFornecedoresEntidadeResponse:
+    type: object
+    properties:
+      fornecedores:
+        type: array
+        items:
+          "$ref": "#/definitions/apiFornecedor"
+  apiGetHorarioRecebimentoLocalResponse:
+    type: object
+    properties:
+      horario_recebimento:
+        "$ref": "#/definitions/recebimentoapiDiaSemana"
+  apiGetLastEventosAgendaResponse:
+    type: object
+    properties:
+      eventos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiGetLastEventosAgendaResponseEvento"
+      last_nsu:
+        type: string
+        format: int64
+  apiGetLastEventosAgendaResponseEvento:
+    type: object
+    properties:
+      evento:
+        "$ref": "#/definitions/apiAgendaEvento"
+      nsu:
+        type: string
+        format: int64
+  apiGetLocaisByEntidadeResponse:
+    type: object
+    properties:
+      locais:
+        type: array
+        items:
+          "$ref": "#/definitions/apiLocal"
+  apiGetLocalResponse:
+    type: object
+    properties:
+      local:
+        "$ref": "#/definitions/apiLocal"
+  apiGetMinhasAgendasResponse:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiAgenda"
+      entidades:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeentidadeEntidade"
+      locais:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiLocal"
+      tiposCarga:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoCarga"
+  apiGetMinhasAgendasV2Request:
+    type: object
+    properties:
+      filtros:
+        "$ref": "#/definitions/apiGetMinhasAgendasV2RequestFiltros"
+      page:
+        "$ref": "#/definitions/apiPageRequest"
+      order:
+        "$ref": "#/definitions/apiOrder"
+  apiGetMinhasAgendasV2RequestFiltros:
+    type: object
+    properties:
+      status:
+        "$ref": "#/definitions/apiGetMinhasAgendasV2RequestFiltrosStatus"
+      destinatario_uuid:
+        type: string
+      nfe:
+        type: string
+        title: chave nfe
+      pedido:
+        type: string
+        title: numero pedido
+  apiGetMinhasAgendasV2RequestFiltrosStatus:
+    type: string
+    enum:
+      - TODOS
+      - CANCELADA
+      - PENDENTE
+      - CONFIRMADA
+      - CONFIRMADA_FUTURO
+      - CONFIRMADA_FUTURO_PENDENTE
+    default: TODOS
+  apiGetMinhasAgendasV2Response:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiAgenda"
+      entidades:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeentidadeEntidade"
+      locais:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiLocal"
+      tiposCarga:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoCarga"
+      page:
+        "$ref": "#/definitions/apiPage"
+      order:
+        "$ref": "#/definitions/apiOrder"
+  apiGetNotasAgendaResponse:
+    type: object
+    properties:
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiNotaFiscal"
+  apiGetPedidosAgendaResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiGetPedidosAgendaResponsePedido"
+  apiGetPedidosAgendaResponsePedido:
+    type: object
+    properties:
+      pedido:
+        "$ref": "#/definitions/agendarentregapedidoPedido"
+      itens:
+        type: array
+        items:
+          "$ref": "#/definitions/agendarentregapedidoPedidoItem"
+      entregas:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/PedidoItemEntrega"
+      saldo:
+        "$ref": "#/definitions/apiResumoSaldoPedido"
+  apiGetStatusRecebimentoAgendaResponse:
+    type: object
+    properties:
+      notas:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiGetStatusRecebimentoAgendaResponseNota"
+      pedidos:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiGetStatusRecebimentoAgendaResponsePedido"
+  apiGetStatusRecebimentoAgendaResponseNota:
+    type: object
+    properties:
+      status_recebimento:
+        "$ref": "#/definitions/AgendaNotaStatusRecebimento"
+      anotacao:
+        "$ref": "#/definitions/recebimentoapiAgendaAnotacao"
+  apiGetStatusRecebimentoAgendaResponsePedido:
+    type: object
+    properties:
+      status_recebimento:
+        "$ref": "#/definitions/apiAgendaPedidoStatusRecebimento"
+  apiGetTipoAnotacaoResponse:
+    type: object
+    properties:
+      tipo_anotacao:
+        "$ref": "#/definitions/recebimentoapiTipoAnotacao"
+  apiGetTipoDocumentoResponse:
+    type: object
+    properties:
+      tipo_documento:
+        "$ref": "#/definitions/apiTipoDocumento"
+  apiGetTiposCargaLocalResponse:
+    type: object
+    properties:
+      tipos_carga:
+        type: array
+        items:
+          "$ref": "#/definitions/apiLocalTipoCarga"
+  apiGetUsuariosFornecedorResponse:
+    type: object
+    properties:
+      usuarios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiFornecedorUsuario"
+  apiHistoricoAgendasResponse:
+    type: object
+    properties:
+      datas:
+        type: array
+        items:
+          type: string
+      locais:
+        type: array
+        items:
+          "$ref": "#/definitions/apiHistoricoAgendasResponseLocalRecebimento"
+  apiHistoricoAgendasResponseHistorico:
+    type: object
+    properties:
+      cadastradasNoDia:
+        type: integer
+        format: int32
+      confirmadasNoDia:
+        type: integer
+        format: int32
+      canceladasNoDia:
+        type: integer
+        format: int32
+      confirmadasProDia:
+        type: integer
+        format: int32
+      solicitadasProDia:
+        type: integer
+        format: int32
+      pendentesNoDia:
+        type: integer
+        format: int32
+      confirmadasNoDiaComAlteracao:
+        type: integer
+        format: int32
+      confirmadasNoDiaSemAlteracao:
+        type: integer
+        format: int32
+  apiHistoricoAgendasResponseLocalRecebimento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      historico:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiHistoricoAgendasResponseHistorico"
+  apiHorarioRecebimento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      local_uuid:
+        type: string
+      dia_semana:
+        "$ref": "#/definitions/apiHorarioRecebimentoDiaSemana"
+      hora_inicio:
+        type: string
+      hora_fim:
+        type: string
+  apiHorarioRecebimentoDiaSemana:
+    type: string
+    enum:
+      - DIA_SEMANA_INDEFINIDO
+      - DOMINGO
+      - SEGUNDA
+      - TERCA
+      - QUARTA
+      - QUINTA
+      - SEXTA
+      - SABADO
+    default: DIA_SEMANA_INDEFINIDO
+  apiInserirUsuarioFornecedorResponse:
+    type: object
+    properties:
+      usuario:
+        "$ref": "#/definitions/apiFornecedorUsuario"
+  apiListAgendasLocalRequest:
+    type: object
+    properties:
+      localUUID:
+        type: string
+      dataConfirmacaoInicio:
+        type: string
+      dataConfirmacaoFim:
+        type: string
+  apiListAgendasLocalResponse:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiAgenda"
+      entidades:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeentidadeEntidade"
+        title: |-
+          tempocerto.api.Page page = 2;
+          tempocerto.api.Order order = 3;
+      docas:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/recebimentoapiDoca"
+      tiposCarga:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoCarga"
+  apiListAgendasRecepcaoEntidadeResponse:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiAgenda"
+      entidades:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeentidadeEntidade"
+      locais:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiLocal"
+      tiposCarga:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoCarga"
+      tiposVolume:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoVolume"
+      tiposVeiculo:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoVeiculo"
+  apiListDocasResponse:
+    type: object
+    properties:
+      docas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiDoca"
+  apiListDocumentoAceiteResponse:
+    type: object
+    properties:
+      documentos_aceite:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDocumentoAceite"
+  apiListHorariosRecebimentoResponse:
+    type: object
+    properties:
+      horarios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiHorarioRecebimento"
+  apiListStatusRecebimentoResponse:
+    type: object
+    properties:
+      status:
+        type: array
+        items:
+          "$ref": "#/definitions/apiStatusRecebimentoStatus"
+      conexoes:
+        type: array
+        items:
+          "$ref": "#/definitions/StatusRecebimentoConexao"
+  apiListTagsResourceResponse:
+    type: object
+    properties:
+      tags:
+        type: array
+        items:
+          "$ref": "#/definitions/apiResourceTag"
+  apiListTipoAnotacaoResponse:
+    type: object
+    properties:
+      tipos_anotacao:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiTipoAnotacao"
+  apiListTipoCargaResponse:
+    type: object
+    properties:
+      tipos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiTipoCarga"
+  apiListTipoDocumentoResponse:
+    type: object
+    properties:
+      tipos_documento:
+        type: array
+        items:
+          "$ref": "#/definitions/apiTipoDocumento"
+  apiListTiposVolumeEntidadeResponse:
+    type: object
+    properties:
+      tipos_volume:
+        type: array
+        items:
+          "$ref": "#/definitions/apiTipoVolume"
+  apiListVolumeRecebimentoResponse:
+    type: object
+    properties:
+      volumes:
+        type: array
+        items:
+          "$ref": "#/definitions/apiVolumeRecebimento"
+  apiListWebhooksResponse:
+    type: object
+    properties:
+      hooks:
+        type: array
+        items:
+          "$ref": "#/definitions/apiWebhook"
+  apiListarDestinatarioResponse:
+    type: object
+    properties:
+      destinatarios:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiDestinatario"
+  apiListarPedidosFromUsuarioRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      fornecedor_uuid:
+        type: string
+      local_entrega_uuid:
+        type: string
+      page:
+        "$ref": "#/definitions/apiPageRequest"
+      order:
+        "$ref": "#/definitions/apiOrder"
+      status_recebimento:
+        "$ref": "#/definitions/apiListarPedidosFromUsuarioRequestStatusRecebimento"
+      pedido:
+        type: string
+  apiListarPedidosFromUsuarioRequestStatusRecebimento:
+    type: string
+    enum:
+      - STATUS_RECEBIMENTO_TODOS
+      - STATUS_RECEBIMENTO_PENDENTES
+      - STATUS_RECEBIMENTO_CONCLUIDO
+    default: STATUS_RECEBIMENTO_TODOS
+  apiListarPedidosFromUsuarioResponse:
+    type: object
+    properties:
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiPedido"
+      filiais:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeapiFilial"
+      page:
+        "$ref": "#/definitions/apiPage"
+      order:
+        "$ref": "#/definitions/apiOrder"
+  apiLocal:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      entidade:
+        "$ref": "#/definitions/entidadeentidadeEntidade"
+      filiais:
+        type: array
+        items:
+          "$ref": "#/definitions/filialFilial"
+      dataCadastro:
+        type: string
+      intervaloMinutosRecebimento:
+        type: integer
+        format: int32
+      tipoAgendamento:
+        "$ref": "#/definitions/LocalTipoAgendamento"
+      minutosMaximoAgenda:
+        type: integer
+        format: int32
+      controleAutorizacaoRecebimento:
+        type: boolean
+        format: boolean
+      controleStatusRecebimento:
+        type: boolean
+        format: boolean
+      tipoRestricaoAgenda:
+        "$ref": "#/definitions/LocalTipoRestricaoAgenda"
+      requisito_antecipacao_solicitacao:
+        type: integer
+        format: int32
+      requisito_contato_solicitante:
+        type: boolean
+        format: boolean
+      controle_volume_recebimento:
+        type: boolean
+        format: boolean
+      restricao_previsao_entrega:
+        type: boolean
+        format: boolean
+      pedido_entrega_antecipar:
+        type: integer
+        format: int32
+      pedido_entrega_antecipar_mes_remessa:
+        type: boolean
+        format: boolean
+      pedido_entrega_prolongar:
+        type: integer
+        format: int32
+      limite_agendas:
+        type: integer
+        format: int32
+      agendamento_ordem_chegada:
+        type: boolean
+        format: boolean
+      confirmacao_automatica:
+        type: boolean
+        format: boolean
+      ativo:
+        type: boolean
+        format: boolean
+      permissao_fornecedor_multiempresa:
+        type: boolean
+        format: boolean
+      nfe_limits:
+        "$ref": "#/definitions/LocalNotaFiscalLimits"
+      validacao_externa_nfe:
+        type: boolean
+        format: boolean
+      agendamento_sem_xml_liberado:
+        type: boolean
+        format: boolean
+      conclusao_recebimento_parcial:
+        type: boolean
+        format: boolean
+      troca_status_recebimento_final:
+        type: boolean
+        format: boolean
+      modelo_tempo_descarga:
+        "$ref": "#/definitions/LocalModeloTempoDescarga"
+      tempo_por_volume:
+        type: object
+        additionalProperties:
+          type: integer
+          format: int32
+      minutos_movimentacao_interna:
+        type: integer
+        format: int32
+      cnpjs:
+        type: array
+        items:
+          type: string
+  apiLocalTipoCarga:
+    type: object
+    properties:
+      local:
+        "$ref": "#/definitions/apiLocal"
+      tipo_carga:
+        "$ref": "#/definitions/apiTipoCarga"
+      ativo:
+        type: boolean
+        format: boolean
+      limite_agendas:
+        type: integer
+        format: int32
+      horario_recebimento:
+        "$ref": "#/definitions/recebimentoapiDiaSemana"
+      controle_horario:
+        type: boolean
+        format: boolean
+  apiMediaStatusDescargaResponse:
+    type: object
+    properties:
+      locais:
+        type: array
+        items:
+          "$ref": "#/definitions/apiMediaStatusDescargaResponseLocalRecebimento"
+  apiMediaStatusDescargaResponseLocalRecebimento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      medias:
+        "$ref": "#/definitions/LocalRecebimentoMedias"
+  apiNotaFiscalProduto:
+    type: object
+    properties:
+      ean:
+        type: string
+      codigo:
+        type: string
+      descricao:
+        type: string
+      quantidade:
+        type: number
+        format: double
+  apiNotaFiscalStats:
+    type: object
+    properties:
+      pode_agendar:
+        type: boolean
+        format: boolean
+        title: Informa se a nota fiscal está disponível para agendamento
+    title: Dados adicionais gerados pelo serviço
+  apiOrder:
+    type: object
+    properties:
+      columns:
+        type: array
+        items:
+          "$ref": "#/definitions/OrderColumn"
+  apiPage:
+    type: object
+    properties:
+      current:
+        type: integer
+        format: int32
+      total:
+        type: integer
+        format: int32
+      perPage:
+        type: integer
+        format: int32
+  apiPageRequest:
+    type: object
+    properties:
+      page:
+        type: integer
+        format: int32
+      size:
+        type: integer
+        format: int32
+  apiReadDocumentoAceiteResponse:
+    type: object
+  apiReadingsByDocumentoAceiteResponse:
+    type: object
+    properties:
+      usuarios:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDocumentoAceiteLeituraUsuario"
+  apiReagendarRecebimentoRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      periodo:
+        "$ref": "#/definitions/apiAgendaPeriodo"
+      observacoes:
+        type: string
+        title: repeated string docas = 3;
+  apiRelatorioAgendasDiaRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      filtros:
+        "$ref": "#/definitions/apiRelatorioAgendasDiaRequestFiltros"
+      download:
+        "$ref": "#/definitions/apiRelatorioAgendasDiaRequestDownload"
+  apiRelatorioAgendasDiaRequestDownload:
+    type: object
+    properties:
+      formato:
+        "$ref": "#/definitions/apiRelatorioAgendasDiaRequestDownloadFormato"
+  apiRelatorioAgendasDiaRequestDownloadFormato:
+    type: string
+    enum:
+      - XLSX
+    default: XLSX
+  apiRelatorioAgendasDiaRequestFiltros:
+    type: object
+    properties:
+      dia_recebimento:
+        type: string
+      local_uuid:
+        type: string
+  apiRelatorioAgendasDiaResponse:
+    type: object
+    properties:
+      relatorio:
+        "$ref": "#/definitions/apiRelatorioAgendasDiaResponseRelatorio"
+      download_link:
+        type: string
+  apiRelatorioAgendasDiaResponseAgenda:
+    type: object
+    properties:
+      agenda:
+        "$ref": "#/definitions/recebimentoapiAgenda"
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiRelatorioAgendasDiaResponseNota"
+      stats:
+        "$ref": "#/definitions/apiRelatorioAgendasDiaResponseStats"
+      doca:
+        "$ref": "#/definitions/recebimentoapiDoca"
+  apiRelatorioAgendasDiaResponseNota:
+    type: object
+    properties:
+      nota:
+        "$ref": "#/definitions/notafiscalnfeNotaFiscal"
+      stats:
+        "$ref": "#/definitions/apiRelatorioAgendasDiaResponseStats"
+  apiRelatorioAgendasDiaResponseRelatorio:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiRelatorioAgendasDiaResponseAgenda"
+      page:
+        "$ref": "#/definitions/apiPage"
+      order:
+        "$ref": "#/definitions/apiOrder"
+  apiRelatorioAgendasDiaResponseStats:
+    type: object
+    properties:
+      skus:
+        type: integer
+        format: int32
+      volumes:
+        type: number
+        format: double
+  apiRelatorioDiarioRequest:
+    type: object
+    properties:
+      local_uuid:
+        type: string
+      data:
+        type: string
+  apiRelatorioDiarioResponse:
+    type: object
+    properties:
+      cobrancas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiAgendaCobranca"
+      totais:
+        "$ref": "#/definitions/RelatorioDiarioResponseTotais"
+      entidades:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeentidadeEntidade"
+  apiRelatorioRecebimentoNotasRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      filtros:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasRequestFiltros"
+      page:
+        "$ref": "#/definitions/apiPageRequest"
+      order:
+        "$ref": "#/definitions/apiOrder"
+      download:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasRequestDownload"
+  apiRelatorioRecebimentoNotasRequestDownload:
+    type: object
+    properties:
+      formato:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasRequestDownloadFormato"
+  apiRelatorioRecebimentoNotasRequestDownloadFormato:
+    type: string
+    enum:
+      - XLSX
+    default: XLSX
+  apiRelatorioRecebimentoNotasRequestFiltros:
+    type: object
+    properties:
+      dia_recebimento:
+        type: string
+      chave_nfe:
+        type: string
+      periodo:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasRequestFiltrosPeriodo"
+      remetente_uuid:
+        type: string
+  apiRelatorioRecebimentoNotasRequestFiltrosPeriodo:
+    type: object
+    properties:
+      inicio:
+        type: string
+      fim:
+        type: string
+  apiRelatorioRecebimentoNotasResponse:
+    type: object
+    properties:
+      relatorio:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasResponseRelatorio"
+      download_link:
+        type: string
+  apiRelatorioRecebimentoNotasResponseAgenda:
+    type: object
+    properties:
+      agenda:
+        "$ref": "#/definitions/recebimentoapiAgenda"
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiRelatorioRecebimentoNotasResponseNota"
+      stats:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasResponseStats"
+  apiRelatorioRecebimentoNotasResponseNota:
+    type: object
+    properties:
+      nota:
+        "$ref": "#/definitions/notafiscalnfeNotaFiscal"
+      notaV2:
+        "$ref": "#/definitions/comagendarentreganfeNotaFiscal"
+      stats:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasResponseStats"
+  apiRelatorioRecebimentoNotasResponseRelatorio:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiRelatorioRecebimentoNotasResponseAgenda"
+      page:
+        "$ref": "#/definitions/apiPage"
+      order:
+        "$ref": "#/definitions/apiOrder"
+  apiRelatorioRecebimentoNotasResponseStats:
+    type: object
+    properties:
+      skus:
+        type: integer
+        format: int32
+      volumes:
+        type: number
+        format: double
+  apiRelatorioStatusDescargaRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      filtros:
+        "$ref": "#/definitions/apiRelatorioStatusDescargaRequestFiltros"
+      page:
+        "$ref": "#/definitions/apiPageRequest"
+      order:
+        "$ref": "#/definitions/apiOrder"
+      download:
+        "$ref": "#/definitions/apiRelatorioRecebimentoNotasRequestDownload"
+  apiRelatorioStatusDescargaRequestFiltros:
+    type: object
+    properties:
+      periodo_recebimento:
+        "$ref": "#/definitions/apiRelatorioStatusDescargaRequestFiltrosPeriodo"
+      status_descarga:
+        "$ref": "#/definitions/apiRelatorioStatusDescargaRequestFiltrosStatus"
+  apiRelatorioStatusDescargaRequestFiltrosPeriodo:
+    type: object
+    properties:
+      inicio:
+        type: string
+      fim:
+        type: string
+  apiRelatorioStatusDescargaRequestFiltrosStatus:
+    type: object
+    properties:
+      todos:
+        type: boolean
+        format: boolean
+      status_descarga:
+        "$ref": "#/definitions/AgendaStatusDescarga"
+  apiRelatorioStatusDescargaResponse:
+    type: object
+    properties:
+      relatorio:
+        "$ref": "#/definitions/apiRelatorioStatusDescargaResponseRelatorio"
+      download_link:
+        type: string
+  apiRelatorioStatusDescargaResponseAgenda:
+    type: object
+    properties:
+      agenda:
+        "$ref": "#/definitions/recebimentoapiAgenda"
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiRelatorioStatusDescargaResponseNota"
+      stats:
+        "$ref": "#/definitions/apiRelatorioStatusDescargaResponseStats"
+  apiRelatorioStatusDescargaResponseNota:
+    type: object
+    properties:
+      nota:
+        "$ref": "#/definitions/recebimentoapiNotaFiscal"
+      stats:
+        "$ref": "#/definitions/apiRelatorioStatusDescargaResponseStats"
+  apiRelatorioStatusDescargaResponseRelatorio:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiRelatorioStatusDescargaResponseAgenda"
+      page:
+        "$ref": "#/definitions/apiPage"
+      order:
+        "$ref": "#/definitions/apiOrder"
+  apiRelatorioStatusDescargaResponseStats:
+    type: object
+    properties:
+      skus:
+        type: integer
+        format: int32
+      volumes:
+        type: number
+        format: double
+  apiRemoverUsuarioFornecedorResponse:
+    type: object
+  apiReportSaldoAgendadoPedidoResponse:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiResumoPedidoAgendado"
+  apiResourceTag:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+  apiResourceType:
+    type: string
+    enum:
+      - ResourceType_UNKNOWN
+      - ResourceType_TIPO_VEICULO
+    default: ResourceType_UNKNOWN
+  apiResumoAgendasResponse:
+    type: object
+    properties:
+      locais:
+        type: array
+        items:
+          "$ref": "#/definitions/apiResumoAgendasResponseLocalRecebimento"
+  apiResumoAgendasResponseHistorico:
+    type: object
+    properties:
+      total:
+        type: integer
+        format: int32
+      totalComNota:
+        type: integer
+        format: int32
+      totalSemNota:
+        type: integer
+        format: int32
+      canceladas:
+        type: integer
+        format: int32
+      janelas:
+        type: integer
+        format: int32
+  apiResumoAgendasResponseLocalRecebimento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      periodo:
+        "$ref": "#/definitions/apiResumoAgendasResponseHistorico"
+      geral:
+        "$ref": "#/definitions/apiResumoAgendasResponseHistorico"
+  apiResumoPedidoAgendado:
+    type: object
+    properties:
+      agenda:
+        "$ref": "#/definitions/apiResumoPedidoAgendadoAgenda"
+      total:
+        type: number
+        format: float
+      itens:
+        type: object
+        additionalProperties:
+          type: number
+          format: float
+  apiResumoPedidoAgendadoAgenda:
+    type: object
+    properties:
+      uuid:
+        type: string
+      ticket:
+        type: string
+        format: int64
+      saldo_ativo:
+        type: boolean
+        format: boolean
+        title: |-
+          Informa se o saldo está sendo consumido ou não.
+          Basicamente, retorna true enquanto a agenda estiver um status válido de recebimento.
+          Situação deve estar entre: [CONFIRMADA, SOLICITADA, FINALIZADA]
+          Situação de descarga não deve estar entre: [NAO_REALIZADO]
+          Situação de descarga do pedido não deve estar entre: [NAO_RECEBIDO]
+      status:
+        "$ref": "#/definitions/apiAgendaStatus"
+        title: Status da Agenda
+      status_descarga:
+        "$ref": "#/definitions/AgendaStatusDescarga"
+        title: Status de descarga da agenda
+      status_pedido:
+        "$ref": "#/definitions/apiAgendaPedidoStatusRecebimento"
+        title: Status de entrega do pedido na agenda
+  apiResumoSaldoPedido:
+    type: object
+    properties:
+      quantidade:
+        "$ref": "#/definitions/apiResumoSaldoPedidoSaldo"
+      volume:
+        "$ref": "#/definitions/apiResumoSaldoPedidoSaldo"
+      valor:
+        "$ref": "#/definitions/apiResumoSaldoPedidoSaldo"
+  apiResumoSaldoPedidoSaldo:
+    type: object
+    properties:
+      total:
+        type: number
+        format: double
+      pendente:
+        type: number
+        format: double
+      entregue:
+        type: number
+        format: double
+      agendado:
+        type: number
+        format: double
+  apiSearchAgendasEntidadeRequest:
+    type: object
+    properties:
+      entidadeUUID:
+        type: string
+      page:
+        "$ref": "#/definitions/apiPageRequest"
+      order:
+        "$ref": "#/definitions/apiOrder"
+      filtro:
+        "$ref": "#/definitions/apiSearchAgendasEntidadeRequestFiltro"
+  apiSearchAgendasEntidadeRequestFiltro:
+    type: object
+    properties:
+      status:
+        "$ref": "#/definitions/SearchAgendasEntidadeRequestFiltroStatus"
+      remetenteUUID:
+        type: string
+      localEntregaUUID:
+        type: string
+      dataCadastro:
+        type: string
+      dataSolicitada:
+        type: string
+      dataConfirmada:
+        type: string
+      danfe:
+        type: string
+      ticket:
+        type: string
+        format: int64
+      pedido:
+        type: string
+      dataConfirmadaInicio:
+        type: string
+      dataConfirmadaFim:
+        type: string
+  apiSearchAgendasEntidadeResponse:
+    type: object
+    properties:
+      agendas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiAgenda"
+      page:
+        "$ref": "#/definitions/apiPage"
+      order:
+        "$ref": "#/definitions/apiOrder"
+      entidades:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/entidadeentidadeEntidade"
+      locais:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiLocal"
+      tiposCarga:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/apiTipoCarga"
+  apiSolicitarAgendaRequest:
+    type: object
+    properties:
+      remetente:
+        "$ref": "#/definitions/apiSolicitarAgendaRequestRemetente"
+      destinatario:
+        "$ref": "#/definitions/apiSolicitarAgendaRequestDestinatario"
+      carga:
+        "$ref": "#/definitions/apiSolicitarAgendaRequestCarga"
+      veiculo:
+        "$ref": "#/definitions/apiSolicitarAgendaRequestVeiculo"
+      solicitacao:
+        "$ref": "#/definitions/AgendaDataPeriodo"
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestNotaFiscal"
+      observacoes:
+        type: string
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestPedido"
+      documentos:
+        type: array
+        items:
+          type: string
+  apiSolicitarAgendaRequestCarga:
+    type: object
+    properties:
+      tipoCargaUUID:
+        type: string
+      tipoVolumeUUID:
+        type: string
+      quantidade:
+        type: number
+        format: double
+  apiSolicitarAgendaRequestDestinatario:
+    type: object
+    properties:
+      localUUID:
+        type: string
+  apiSolicitarAgendaRequestNotaFiscal:
+    type: object
+    properties:
+      chave:
+        type: string
+  apiSolicitarAgendaRequestPedido:
+    type: object
+    properties:
+      uuid:
+        type: string
+      itens:
+        type: array
+        items:
+          "$ref": "#/definitions/apiSolicitarAgendaRequestPedidoItem"
+  apiSolicitarAgendaRequestPedidoItem:
+    type: object
+    properties:
+      uuid:
+        type: string
+      quantidade:
+        type: number
+        format: double
+  apiSolicitarAgendaRequestRemetente:
+    type: object
+    properties:
+      transportadora:
+        type: boolean
+        format: boolean
+      transportadoraCNPJ:
+        type: string
+      entidadeUUID:
+        type: string
+  apiSolicitarAgendaRequestVeiculo:
+    type: object
+    properties:
+      placa:
+        type: string
+      motorista:
+        type: string
+      tipoVeiculoUUID:
+        type: string
+  apiStatsPeriodoRequest:
+    type: object
+    properties:
+      entidadeUUID:
+        type: string
+      localUUID:
+        type: string
+      inicio:
+        type: string
+      fim:
+        type: string
+  apiStatusDiarioAgendasLocalResponse:
+    type: object
+    properties:
+      total:
+        type: integer
+        format: int32
+      pendentes:
+        type: integer
+        format: int32
+      veiculosPresentes:
+        type: integer
+        format: int32
+      emDescarga:
+        type: integer
+        format: int32
+      concluidas:
+        type: integer
+        format: int32
+      naoRealizadas:
+        type: integer
+        format: int32
+      atrasadas:
+        type: integer
+        format: int32
+      status_fluxo:
+        type: array
+        items:
+          "$ref": "#/definitions/StatusDiarioAgendasLocalResponseStatusFluxo"
+  apiStatusRecebimentoStatus:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      categoria:
+        "$ref": "#/definitions/StatusRecebimentoCategoria"
+      data_cadastro:
+        type: string
+  apiTipoCarga:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      data_cadastro:
+        type: string
+      observacoes:
+        type: string
+  apiTipoDocumento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      chave:
+        type: string
+      documento_nota:
+        type: boolean
+        format: boolean
+      quantidade_minima:
+        type: integer
+        format: int32
+      quantidade_maxima:
+        type: integer
+        format: int32
+      data_cadastro:
+        type: string
+  apiTipoVeiculo:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      dataCadastro:
+        type: string
+      tags:
+        type: array
+        items:
+          "$ref": "#/definitions/apiResourceTag"
+  apiTipoVolume:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      nome_plural:
+        type: string
+      data_cadastro:
+        type: string
+  apiTransferirAgendaRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      periodo:
+        "$ref": "#/definitions/apiAgendaPeriodo"
+      observacoes:
+        type: string
+        title: repeated string docas = 3;
+  apiUpdateCobrancaDescargaLocalRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      cobranca_descarga:
+        "$ref": "#/definitions/apiCobrancaDescarga"
+  apiUpdateCobrancaDescargaLocalResponse:
+    type: object
+  apiUpdateConfigFornecedorResponse:
+    type: object
+  apiUpdateDataRequest:
+    type: object
+    properties:
+      data_uuid:
+        type: string
+      calendario:
+        "$ref": "#/definitions/apiCalendario"
+  apiUpdateDocumentoAceiteRequest:
+    type: object
+    properties:
+      documento_aceite:
+        "$ref": "#/definitions/apiDocumentoAceite"
+      documento_aceite_uuid:
+        type: string
+  apiUpdateDocumentoAceiteResponse:
+    type: object
+  apiUpdateExpedienteLocalRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      expediente:
+        "$ref": "#/definitions/recebimentoapiDiaSemana"
+  apiUpdateExpedienteLocalResponse:
+    type: object
+  apiUpdateHorarioRecebimentoLocalRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      horario_recebimento:
+        "$ref": "#/definitions/recebimentoapiDiaSemana"
+  apiUpdateHorarioRecebimentoLocalResponse:
+    type: object
+  apiUpdateLocalRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      local:
+        "$ref": "#/definitions/apiLocal"
+  apiUpdateLocalResponse:
+    type: object
+    properties:
+      local:
+        "$ref": "#/definitions/apiLocal"
+  apiUpdateStatusDescargaAgendaRequest:
+    type: object
+    properties:
+      agendaUUID:
+        type: string
+      status:
+        "$ref": "#/definitions/AgendaStatusDescarga"
+      observacao:
+        type: string
+  apiUpdateStatusDescargaAgendaResponse:
+    type: object
+  apiUpdateStatusRecebimentoAgendaRequest:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      status_uuid:
+        type: string
+      observacao:
+        type: string
+  apiUpdateStatusRecebimentoNotaRequest:
+    type: object
+    properties:
+      agenda_uuid:
+        type: string
+      chave:
+        type: string
+      status_recebimento:
+        "$ref": "#/definitions/AgendaNotaStatusRecebimento"
+      anotacao:
+        "$ref": "#/definitions/apiUpdateStatusRecebimentoNotaRequestAgendaAnotacao"
+  apiUpdateStatusRecebimentoNotaRequestAgendaAnotacao:
+    type: object
+    properties:
+      tipo_anotacao:
+        "$ref": "#/definitions/UpdateStatusRecebimentoNotaRequestAgendaAnotacaoTipoAnotacao"
+      descricao:
+        type: string
+  apiUpdateStatusRecebimentoNotaResponse:
+    type: object
+  apiUpdateStatusRecebimentoRequest:
+    type: object
+    properties:
+      status_recebimento_uuid:
+        type: string
+      status:
+        "$ref": "#/definitions/recebimentoapiStatusRecebimento"
+  apiUpdateStatusRecebimentoResponse:
+    type: object
+  apiUpdateStatusRecebimentoWorkFlowRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      status:
+        type: array
+        items:
+          "$ref": "#/definitions/apiUpdateStatusRecebimentoWorkFlowRequestStatus"
+      conexoes:
+        type: array
+        items:
+          "$ref": "#/definitions/StatusRecebimentoConexao"
+  apiUpdateStatusRecebimentoWorkFlowRequestStatus:
+    type: object
+    properties:
+      novo:
+        type: boolean
+        format: boolean
+      status:
+        "$ref": "#/definitions/apiStatusRecebimentoStatus"
+  apiUpdateStatusRecebimentoWorkFlowResponse:
+    type: object
+  apiUpdateTagsResourceRequest:
+    type: object
+    properties:
+      resource_type:
+        "$ref": "#/definitions/apiResourceType"
+      resource_id:
+        type: string
+      tags:
+        type: array
+        items:
+          "$ref": "#/definitions/apiResourceTag"
+  apiUpdateTipoAnotacaoRequest:
+    type: object
+    properties:
+      tipo_anotacao:
+        "$ref": "#/definitions/recebimentoapiTipoAnotacao"
+      tipo_anotacao_uuid:
+        type: string
+  apiUpdateTipoAnotacaoResponse:
+    type: object
+  apiUpdateTipoCargaLocalResponse:
+    type: object
+  apiUpdateTipoDocumentoRequest:
+    type: object
+    properties:
+      tipo_documento:
+        "$ref": "#/definitions/apiTipoDocumento"
+      tipo_documento_uuid:
+        type: string
+  apiUpdateTipoDocumentoResponse:
+    type: object
+  apiUpdateTipoVolumeRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      tipo:
+        "$ref": "#/definitions/apiTipoVolume"
+  apiUpdateWebhookRequest:
+    type: object
+    properties:
+      hook:
+        "$ref": "#/definitions/apiWebhook"
+  apiVerificarLeadTimeRequest:
+    type: object
+    properties:
+      uuid:
+        type: string
+      data:
+        type: string
+      chaves:
+        type: array
+        items:
+          type: string
+  apiVerificarLeadTimeResponse:
+    type: object
+    properties:
+      valido:
+        type: boolean
+        format: boolean
+      adicional:
+        type: boolean
+        format: boolean
+      mensagem:
+        type: string
+  apiVolumeRecebimento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      capacidade:
+        type: integer
+        format: int32
+      data_cadastro:
+        type: string
+      cap_domingo:
+        type: integer
+        format: int32
+      cap_segunda:
+        type: integer
+        format: int32
+      cap_terca:
+        type: integer
+        format: int32
+      cap_quarta:
+        type: integer
+        format: int32
+      cap_quinta:
+        type: integer
+        format: int32
+      cap_sexta:
+        type: integer
+        format: int32
+      cap_sabado:
+        type: integer
+        format: int32
+      capacidade_dias:
+        type: array
+        items:
+          "$ref": "#/definitions/VolumeRecebimentoDiaCapacidade"
+  apiWebhook:
+    type: object
+    properties:
+      uuid:
+        type: string
+      payload_url:
+        type: string
+      secret:
+        type: string
+      all_events:
+        type: boolean
+        format: boolean
+      events:
+        type: array
+        items:
+          "$ref": "#/definitions/WebhookEvent"
+      active:
+        type: boolean
+        format: boolean
+  authPerfil:
+    type: object
+    properties:
+      nome:
+        type: string
+      sobrenome:
+        type: string
+      nomeCompleto:
+        type: string
+      telefones:
+        type: array
+        items:
+          "$ref": "#/definitions/PerfilTelefone"
+  authUsuario:
+    type: object
+    properties:
+      uuid:
+        type: string
+      usuario:
+        type: string
+      email:
+        type: string
+      dataCadastro:
+        type: string
+      tipo:
+        "$ref": "#/definitions/authUsuarioTipo"
+      authMethod:
+        "$ref": "#/definitions/UsuarioAuthMethod"
+      perfil:
+        "$ref": "#/definitions/authPerfil"
+  authUsuarioTipo:
+    type: string
+    enum:
+      - Tipo_API
+      - Tipo_USER
+    default: Tipo_API
+  comagendarentreganfeNotaFiscal:
+    type: object
+    properties:
+      chave:
+        type: string
+      emitente:
+        "$ref": "#/definitions/filialFilial"
+      destinatario:
+        "$ref": "#/definitions/filialFilial"
+      transporte:
+        "$ref": "#/definitions/comagendarentreganfeNotaFiscalTransporte"
+      origem:
+        "$ref": "#/definitions/comagendarentreganfeNotaFiscalOrigem"
+      numeroNota:
+        type: string
+        format: int64
+      pedido:
+        type: string
+        title: Pedido presente no campo xPed geral da NFE
+      pedido_manual:
+        type: string
+        title: Pedido inserido manualmente pelo usuário
+      pedidos:
+        type: array
+        items:
+          type: string
+        title: União de todos os números de pedidos presentes na NFE, incluíndo pedido
+          definido manualmente (campo pedido_manual)
+      pedidos_itens:
+        type: array
+        items:
+          type: string
+        title: Números de pedidos que estão presentes no campo xPed dos itens
+      dataCadastro:
+        type: string
+      dataEmissao:
+        type: string
+      statusRecebimento:
+        "$ref": "#/definitions/comagendarentreganfeNotaFiscalStatusRecebimento"
+      uuidEventoRecusado:
+        type: string
+      itens:
+        type: array
+        items:
+          "$ref": "#/definitions/nfeNotaFiscalItem"
+      cobranca:
+        "$ref": "#/definitions/nfeNotaFiscalCobranca"
+  comagendarentreganfeNotaFiscalOrigem:
+    type: string
+    enum:
+      - Origem_SEFAZ
+      - Origem_EMAIL
+      - Origem_UPLOAD_SITE
+      - Origem_EXTERNO
+    default: Origem_SEFAZ
+  comagendarentreganfeNotaFiscalStatusRecebimento:
+    type: string
+    enum:
+      - StatusRecebimento_IGNORADO
+      - StatusRecebimento_PENDENTE
+      - StatusRecebimento_APROVADO
+      - StatusRecebimento_RECUSADO
+    default: StatusRecebimento_IGNORADO
+  comagendarentreganfeNotaFiscalTransporte:
+    type: object
+    properties:
+      transportadora:
+        "$ref": "#/definitions/filialFilial"
+      veiculo:
+        "$ref": "#/definitions/comagendarentreganfeNotaFiscalTransporteVeiculo"
+      volumes:
+        type: array
+        items:
+          "$ref": "#/definitions/NotaFiscalTransporteVolume"
+  comagendarentreganfeNotaFiscalTransporteVeiculo:
+    type: object
+    properties:
+      placa:
+        type: string
+      uf:
+        type: string
+  entidadeapiFilial:
+    type: object
+    properties:
+      uuid:
+        type: string
+      identidade:
+        type: string
+      nome_fantasia:
+        type: string
+      entidade:
+        "$ref": "#/definitions/agendarentidadeapiEntidade"
+  entidadeentidadeEntidade:
+    type: object
+    properties:
+      uuid:
+        type: string
+      cpfCnpjMatriz:
+        type: string
+        title: Em caso de Pessoa Física, CPF completo, caso contrário, somente 8 digitos
+          referente à parte matriz do CNPJ
+      nome:
+        type: string
+      nomeFantasia:
+        type: string
+      tipoPessoa:
+        "$ref": "#/definitions/EntidadeTipoPessoa"
+      dataCadastro:
+        type: string
+        format: int64
+      logotipoPersonalizada:
+        type: boolean
+        format: boolean
+  filialFilial:
+    type: object
+    properties:
+      uuid:
+        type: string
+      entidade:
+        "$ref": "#/definitions/entidadeentidadeEntidade"
+      cpfCnpj:
+        type: string
+      nomeFantasia:
+        type: string
+      ordem:
+        type: string
+        format: int64
+      matriz:
+        type: boolean
+        format: boolean
+      ativo:
+        type: boolean
+        format: boolean
+      dataCadastro:
+        type: string
+        format: int64
+  nfeNotaFiscalCobranca:
+    type: object
+    properties:
+      fatura:
+        "$ref": "#/definitions/CobrancaFatura"
+      duplicatas:
+        type: array
+        items:
+          "$ref": "#/definitions/NotaFiscalCobrancaDuplicata"
+  nfeNotaFiscalEvento:
+    type: object
+    properties:
+      uuid:
+        type: string
+      evento:
+        "$ref": "#/definitions/nfeNotaFiscalEventoEvento"
+        title: string chave = 2;
+      observacao:
+        type: string
+      dataCadastro:
+        type: string
+      usuarioUUID:
+        type: string
+      criadoPor:
+        "$ref": "#/definitions/nfeNotaFiscalEventoCriadoPor"
+  nfeNotaFiscalEventoCriadoPor:
+    type: string
+    enum:
+      - CriadoPor_USUARIO
+      - CriadoPor_SISTEMA
+    default: CriadoPor_USUARIO
+  nfeNotaFiscalEventoEvento:
+    type: string
+    enum:
+      - Evento_UNKNOWN
+      - Evento_RECEBIMENTO_APROVADO
+      - Evento_RECEBIMENTO_RECUSADO
+    default: Evento_UNKNOWN
+  nfeNotaFiscalItem:
+    type: object
+    properties:
+      item:
+        type: integer
+        format: int32
+      produto:
+        "$ref": "#/definitions/nfeNotaFiscalItemProduto"
+  nfeNotaFiscalItemProduto:
+    type: object
+    properties:
+      codigo:
+        type: string
+      ean:
+        type: string
+      descricao:
+        type: string
+      ean_tributacao:
+        type: string
+      unidade_comercial:
+        type: string
+      quantidade_comercial:
+        type: number
+        format: float
+      valor_unitario_comercializacao:
+        type: number
+        format: float
+      unidade_tributavel:
+        type: string
+      quantidade_tributavel:
+        type: number
+        format: float
+      valor_unitario_tributacao:
+        type: number
+        format: float
+      valor_total:
+        type: number
+        format: float
+      codigo_pedido:
+        type: string
+  notafiscalnfeNotaFiscal:
+    type: object
+    properties:
+      chave:
+        type: string
+      emitente:
+        "$ref": "#/definitions/filialFilial"
+      destinatario:
+        "$ref": "#/definitions/filialFilial"
+      transporte:
+        "$ref": "#/definitions/notafiscalnfeNotaFiscalTransporte"
+      origem:
+        "$ref": "#/definitions/notafiscalnfeNotaFiscalOrigem"
+      numeroNota:
+        type: string
+        format: int64
+      createdAt:
+        type: string
+        format: int64
+      pedido:
+        type: string
+      dataEmissao:
+        type: string
+        format: int64
+      statusRecebimento:
+        "$ref": "#/definitions/notafiscalnfeNotaFiscalStatusRecebimento"
+      uuidEventoRecusado:
+        type: string
+      eventos:
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/nfeNotaFiscalEvento"
+  notafiscalnfeNotaFiscalOrigem:
+    type: string
+    enum:
+      - SEFAZ
+      - EMAIL
+      - UPLOAD_SITE
+      - EXTERNO
+    default: SEFAZ
+  notafiscalnfeNotaFiscalStatusRecebimento:
+    type: string
+    enum:
+      - StatusRecebimento_IGNORADO
+      - StatusRecebimento_PENDENTE
+      - StatusRecebimento_APROVADO
+      - StatusRecebimento_RECUSADO
+    default: StatusRecebimento_IGNORADO
+  notafiscalnfeNotaFiscalTransporte:
+    type: object
+    properties:
+      transportadora:
+        "$ref": "#/definitions/filialFilial"
+      veiculo:
+        "$ref": "#/definitions/notafiscalnfeNotaFiscalTransporteVeiculo"
+  notafiscalnfeNotaFiscalTransporteVeiculo:
+    type: object
+    properties:
+      placa:
+        type: string
+      uf:
+        type: string
+  pedidoPedidoDuplicata:
+    type: object
+    properties:
+      data_vencimento:
+        type: string
+        title: 'Data de vencimento da duplicata (Format: YYYY-MM-DD)'
+      valor:
+        type: number
+        format: double
+        title: Valor da duplicata
+      numero:
+        type: string
+        title: Número da duplicata
+  pedidoPedidoEntrega:
+    type: object
+    properties:
+      data:
+        type: string
+        title: 'Data prevista para entrega. Formato: YYYY-MM-DD'
+      horaInicio:
+        type: string
+      data_inicial:
+        type: string
+      data_final:
+        type: string
+    title: Informações de período de entrega do pedido
+  pedidoResumoSaldo:
+    type: object
+    properties:
+      quantidade:
+        "$ref": "#/definitions/pedidoResumoSaldoSaldo"
+      volume:
+        "$ref": "#/definitions/pedidoResumoSaldoSaldo"
+      valor:
+        "$ref": "#/definitions/pedidoResumoSaldoSaldo"
+  pedidoResumoSaldoSaldo:
+    type: object
+    properties:
+      total:
+        type: number
+        format: float
+      pendente:
+        type: number
+        format: float
+      entregue:
+        type: number
+        format: float
+      agendado:
+        type: number
+        format: float
+  pedidoStatusPedido:
+    type: string
+    enum:
+      - STATUS_PEDIDO_INDEFINIDO
+      - PEDIDO_EM_ABERTO
+      - PEDIDO_CONCLUIDO
+      - PEDIDO_CANCELADO
+    default: STATUS_PEDIDO_INDEFINIDO
+  profileProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  recebimentoapiAgenda:
+    type: object
+    properties:
+      uuid:
+        type: string
+      remetente:
+        "$ref": "#/definitions/apiAgendaRemetente"
+      destinatario:
+        "$ref": "#/definitions/apiAgendaDestinatario"
+      carga:
+        "$ref": "#/definitions/apiAgendaCarga"
+      veiculo:
+        "$ref": "#/definitions/apiAgendaVeiculo"
+      status:
+        "$ref": "#/definitions/apiAgendaStatus"
+      statusDescarga:
+        "$ref": "#/definitions/AgendaStatusDescarga"
+      solicitacao:
+        "$ref": "#/definitions/AgendaDataPeriodo"
+      confirmacao:
+        "$ref": "#/definitions/AgendaDataPeriodo"
+      createdAt:
+        type: string
+      notas:
+        type: array
+        items:
+          "$ref": "#/definitions/notafiscalnfeNotaFiscal"
+      notasV2:
+        type: array
+        items:
+          "$ref": "#/definitions/comagendarentreganfeNotaFiscal"
+      usuario:
+        "$ref": "#/definitions/authUsuario"
+      criadoPor:
+        "$ref": "#/definitions/apiAgendaCriadoPor"
+      docas:
+        type: array
+        items:
+          "$ref": "#/definitions/recebimentoapiDoca"
+      minutosSemResposta:
+        type: integer
+        format: int32
+      janelaUUID:
+        type: string
+      cobranca:
+        "$ref": "#/definitions/apiAgendaCobranca"
+        title: int32 referenciaAntecipacao = 17;
+      ticket:
+        type: integer
+        format: int32
+      pedidos:
+        type: array
+        items:
+          "$ref": "#/definitions/agendarentregapedidoPedido"
+      cadastro_interno:
+        type: boolean
+        format: boolean
+      devolucao:
+        "$ref": "#/definitions/apiAgendaDevolucao"
+      has_leadtime_warning:
+        type: boolean
+        format: boolean
+      stats:
+        "$ref": "#/definitions/apiAgendaStats"
+      sugestao:
+        "$ref": "#/definitions/AgendaSugestao"
+      documentos:
+        type: array
+        items:
+          "$ref": "#/definitions/apiAgendaDocumento"
+      confirmacao_recebimento:
+        "$ref": "#/definitions/AgendaConfirmacaoParcial"
+        title: Informações relacionadas a confirmação parcial da parte de recebimento
+      confirmacao_fiscal:
+        "$ref": "#/definitions/AgendaConfirmacaoParcial"
+        title: Informações relacionadas a confirmação parcial da parte fiscal
+      status_recebimento:
+        "$ref": "#/definitions/apiAgendaStatusRecebimento"
+  recebimentoapiAgendaAnotacao:
+    type: object
+    properties:
+      uuid:
+        type: string
+      usuario:
+        "$ref": "#/definitions/authUsuario"
+      tipo_anotacao:
+        "$ref": "#/definitions/recebimentoapiTipoAnotacao"
+      descricao:
+        type: string
+      data_cadastro:
+        type: string
+      nfe:
+        type: string
+        title: Anotação relacionada a nota fiscal na agenda
+  recebimentoapiDestinatario:
+    type: object
+    properties:
+      entidade:
+        "$ref": "#/definitions/agendarentidadeapiEntidade"
+  recebimentoapiDiaSemana:
+    type: object
+    properties:
+      domingo:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+      segunda:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+      terca:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+      quarta:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+      quinta:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+      sexta:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+      sabado:
+        type: array
+        items:
+          "$ref": "#/definitions/apiDiaSemanaHorario"
+  recebimentoapiDoca:
+    type: object
+    properties:
+      uuid:
+        type: string
+      descricao:
+        type: string
+      dataCadastro:
+        type: string
+      tipos_carga:
+        type: array
+        items:
+          type: string
+      ativo:
+        type: boolean
+        format: boolean
+      volumes_recebimento:
+        type: array
+        items:
+          type: string
+      cnpjs_recebimento:
+        type: array
+        items:
+          type: string
+      enderecos:
+        type: array
+        items:
+          "$ref": "#/definitions/DocaEndereco"
+  recebimentoapiGetNFEResponse:
+    type: object
+    properties:
+      nfe:
+        "$ref": "#/definitions/recebimentoapiNotaFiscal"
+  recebimentoapiNotaFiscal:
+    type: object
+    properties:
+      chave:
+        type: string
+        title: Chave de acesso
+      stats:
+        "$ref": "#/definitions/apiNotaFiscalStats"
+      emitente:
+        "$ref": "#/definitions/agendarrecebimentoapiEntidade"
+        title: Informações do emitente
+      destinatario:
+        "$ref": "#/definitions/agendarrecebimentoapiEntidade"
+        title: Informações do destinatário
+      transporte:
+        "$ref": "#/definitions/recebimentoapiNotaFiscalTransporte"
+        title: Informações de transporte
+      data_emissao:
+        type: string
+        title: Data de emissão da nota fiscal
+      numero_nota:
+        type: integer
+        format: int32
+        title: Número da nota
+      numero_pedido:
+        type: string
+        title: Número do pedido
+      numeros_pedidos_itens:
+        type: array
+        items:
+          type: string
+        title: Números de pedidos informado nos itens da nota
+      numeros_pedidos:
+        type: array
+        items:
+          type: string
+        title: Números de pedidos informado nos itens da nota e na nota
+      status_recebimento:
+        "$ref": "#/definitions/comagendarentreganfeNotaFiscalStatusRecebimento"
+        title: Status da nota
+    title: Recurso que representa uma Nota Fiscal
+  recebimentoapiNotaFiscalTransporte:
+    type: object
+    properties:
+      transportadora:
+        "$ref": "#/definitions/agendarrecebimentoapiEntidade"
+        title: Informações da transportadora da nota fiscal
+    title: Informações de transporte da nota fiscal
+  recebimentoapiPedido:
+    type: object
+    properties:
+      pedido:
+        "$ref": "#/definitions/agendarentregapedidoPedido"
+      itens:
+        type: array
+        items:
+          "$ref": "#/definitions/agendarentregapedidoPedidoItem"
+      local_entrega:
+        "$ref": "#/definitions/apiLocal"
+      disponivel:
+        type: boolean
+        format: boolean
+      status_recebimento:
+        "$ref": "#/definitions/recebimentoapiPedidoStatusRecebimento"
+  recebimentoapiPedidoStatusRecebimento:
+    type: string
+    enum:
+      - STATUS_RECEBIMENTO_INDEFINIDO
+      - STATUS_RECEBIMENTO_NAO_AGENDADO
+      - STATUS_RECEBIMENTO_PARCIAL
+      - STATUS_RECEBIMENTO_CONCLUIDO
+    default: STATUS_RECEBIMENTO_INDEFINIDO
+  recebimentoapiStatusRecebimento:
+    type: object
+    properties:
+      status:
+        "$ref": "#/definitions/apiStatusRecebimentoStatus"
+      conexoes:
+        type: array
+        items:
+          "$ref": "#/definitions/StatusRecebimentoConexao"
+  recebimentoapiTipoAnotacao:
+    type: object
+    properties:
+      uuid:
+        type: string
+      nome:
+        type: string
+      data_cadastro:
+        type: string
+securityDefinitions:
+  API_KEY:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - API_KEY: []

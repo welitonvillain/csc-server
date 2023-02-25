@@ -1,0 +1,93 @@
+spring:
+  main:
+    banner-mode: "off"
+  jackson:
+    default-property-inclusion: non_null
+  rabbitmq:
+    host: "csc-server.angeloni.com.br"
+    port: 5672
+    username: "admin"
+    password: "admin"
+    template:
+      retry:
+        enabled: true
+    listener:
+      simple:
+        default-requeue-rejected: false
+  application:
+    name: "csc-server"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+    distribution:
+      percentiles:
+        http.server.requests: 0.5, 0.95
+        http.client.requests: 0.5, 0.95
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+
+server:
+  port: 8090
+
+logging:
+  file:
+    name: /u/JavaCsc/logs/${spring.application.name}.log
+#    name: logs/${spring.application.name}.log
+  level:
+    br.com.angeloni: DEBUG
+    com.agendarentrega: DEBUG
+    org.springframework.web.client: DEBUG
+    org.apache.http.wire: DEBUG
+    org.zalando.logbook: DEBUG
+
+job:
+  divergencias:
+    enabled: true
+    start-delay: PT10M # Default: 10 seconds (ISO-8601 format)
+    interval: PT10M # Default: 5 minutes (ISO-8601 format)
+  pedidos:
+    enabled: true
+    start-delay: PT10M # Default: 40 seconds (ISO-8601 format)
+    interval: PT10M # Default: 5 minutes (ISO-8601 format)
+
+pasoe:
+  base-url: "http://pasoehlg.angeloni.com.br:8080/rest/"
+
+agendaentrega:
+  base-url: "https://demo.agendarentrega.com/api/"
+  api-key: "Bearer 91a7a426cab0804d6808100be05c249047453d0e:c604b854f193ae8b6c7e71063ae48410f04ad209"
+  uuid-anotacao: "36e88bab-0a60-4625-b3c8-807180d2cb2c"
+
+notifications:
+  errors:
+    teams: "https://angeloni.webhook.office.com/webhookb2/c36966a3-0c09-4ae0-936b-09d4a22596fa@90e262ba-293a-4132-b08a-8e8b55e72dfd/IncomingWebhook/9304e110d4d649d491c3bed8333196da/8088e33b-2d16-4521-9d33-f5cee282a5f3"
+
+file-server:
+  protocol: "sftp"
+  host: "10.250.1.177"
+  port: 22
+  username: "samiteste"
+  password: "samiteste"
+  path: "/nas/FS_tempo_certoSAMI/pendente"
+
+queues:
+  notifications: "csc.notifications.hml"
+  agendamentos: "csc.agendamentos.hml"
+  downloads: "csc.downloads.hml"

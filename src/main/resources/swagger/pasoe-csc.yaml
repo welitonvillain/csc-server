@@ -1,0 +1,463 @@
+---
+swagger: "2.0"
+info:
+  description: A API de integração do Angeloni foi construída no modelo Rest, baseada na aplicação `PASOE`, tecnologia forneceida pela Progress. Esta API tem uso restrito ao grupo Angeloni, estando inacessível à recursos e requisições de terceiros sem liberação prévia. Esta documentação tem por objetivo, documentar os serviços e respectivos métodos disponíveis para consumo dentro da API.
+  version: 1.2.0
+  title: API Rest Angeloni
+host: pasoehlg.angeloni.com.br:8080
+basePath: /rest
+tags:
+  - name: App Clube Angeloni
+schemes:
+  - http
+paths:
+  /tempocerto/pedido/v01/:
+    get:
+      tags:
+        - Tempo Certo
+      summary: Consulta pedidos Tempo Certo
+      operationId: buscarPedidos
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/BuscarPedidosTempoCertoResponse'
+
+  /tempocerto/agendamento/v01/status/{status}:
+    get:
+      tags:
+        - Tempo Certo
+      summary: Consulta Agendamentos Tempo Certo
+      operationId: buscarAgendamentos
+      parameters:
+        - in: path
+          name: status
+          type: string
+          required: true
+          description: Status Agendamento
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/BuscarAgendamentosTempoCertoResponse'
+
+  /tempocerto/pedido/v01/{cnpjEstabelecimento}/{codigoPedido}:
+    put:
+      tags:
+        - Tempo Certo
+      summary: Atualiza pedido Tempo Certo
+      operationId: atualizarPedido
+      parameters:
+        - in: path
+          name: cnpjEstabelecimento
+          type: string
+          required: true
+          description: Codigo do estabelecimento
+        - in: path
+          name: codigoPedido
+          type: integer
+          required: true
+          description: Codigo do pedido
+        - in: body
+          name: body
+          description: Recebe informações para atualizar pedido.
+          required: true
+          schema:
+            $ref: '#/definitions/AtualizaPedidoTempoCerto'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/RetornoAtualizaPedidoTempoCerto'
+        500:
+          description: Erro de execução interna
+          schema:
+            $ref: '#/definitions/RetornoAtualizaPedidoTempoCerto'
+
+  /tempocerto/agendamento/v01/{id}:
+    put:
+      tags:
+        - Tempo Certo
+      summary: Atualiza Agendamento Tempo Certo
+      operationId: atualizarAgendamento
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID Agendamento
+        - in: body
+          name: body
+          description: Recebe informações para atualizar agendamento.
+          required: true
+          schema:
+            $ref: '#/definitions/AtualizaAgendamentoTempoCerto'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/RetornoAtualizaAgendamentoTempoCerto'
+        500:
+          description: Erro de execução interna
+          schema:
+            $ref: '#/definitions/RetornoAtualizaAgendamentoTempoCerto'
+
+  /tempocerto/agendamento/v01/:
+    post:
+      tags:
+        - Tempo Certo
+      summary: Cria Agendamento Tempo Certo
+      operationId: criarAgendamento
+      parameters:
+        - in: body
+          name: body
+          description: Recebe informações para criar agendamento.
+          required: true
+          schema:
+            $ref: '#/definitions/AgendamentoTempoCerto'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/RetornoCriarAgendamentoTempoCerto'
+        500:
+          description: Erro de execução interna
+          schema:
+            $ref: '#/definitions/RetornoCriarAgendamentoTempoCerto'
+
+  /tempocerto/agendamento/documento/v01/:
+    post:
+      tags:
+        - Tempo Certo
+      summary: Vincula um Documento com um Agendamento Tempo Certo
+      operationId: criarDocumento
+      parameters:
+        - in: body
+          name: body
+          description: Recebe informações para criar documento.
+          required: true
+          schema:
+            $ref: '#/definitions/DocumentoTempoCerto'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Sucesso
+          schema:
+            $ref: '#/definitions/RetornoCriaDocumentoTempoCerto'
+        500:
+          description: Erro de execução interna
+          schema:
+            $ref: '#/definitions/RetornoCriaDocumentoTempoCerto'
+
+definitions:
+
+  BuscarPedidosTempoCertoResponse:
+    type: object
+    properties:
+      dsPedidos:
+        type: object
+        properties:
+          Pedidos:
+            type: array
+            items:
+              type: object
+              properties:
+                cnpjEstabelecimento:
+                  type: string
+                codigoPedido:
+                  type: integer
+                cnpjFornecedor:
+                  type: string
+                cnpjEmitente:
+                  type: string
+                cnpjDestinatario:
+                  type: string
+                dataEmissao:
+                  type: string
+                  format: date
+                observacoes:
+                  type: string
+                entregaData:
+                  type: string
+                  format: date
+                entregaHora:
+                  type: string
+                status:
+                  type: integer
+                ehCPF:
+                  type: string
+                nomeProdutorRural:
+                  type: string
+                Itens:
+                  type: array
+                  items:
+                    $ref: '#/definitions/BuscarPedidosItemTempoCertoResponse'
+              title: BuscarPedidosTempoCertoResponse
+  BuscarPedidosItemTempoCertoResponse:
+    type: object
+    properties:
+      sequencia:
+        type: integer
+      precoUnitario:
+        type: number
+        format: float
+      precoTotal:
+        type: number
+        format: float
+      quantidade:
+        type: number
+        format: float
+      ean:
+        type: string
+      codigoDestinatario:
+        type: string
+      descricao:
+        type: string
+      codigoFornecedor:
+        type: string
+      volumeTotal:
+        type: number
+        format: float
+      volumeUnitario:
+        type: number
+        format: float
+      ncm:
+        type: string
+      Impostos:
+        type: array
+        items:
+          $ref: '#/definitions/BuscarPedidosItemImpostoTempoCertoResponse'
+    title: BuscarPedidosItemTempoCertoResponse
+  BuscarPedidosItemImpostoTempoCertoResponse:
+    type: object
+    properties:
+      codigoImposto:
+        type: string
+      aliquota:
+        type: number
+        format: float
+      valor:
+        type: number
+        format: float
+    title: BuscarPedidosItemImpostoTempoCertoResponse
+
+  BuscarAgendamentosTempoCertoResponse:
+    type: object
+    properties:
+      dsAgendamentosStatus:
+        type: object
+        properties:
+          tt-agendamentos:
+            type: array
+            items:
+              type: object
+              properties:
+                idAgenda:
+                  type: string
+                observacoes:
+                  type: string
+                status:
+                  type: string
+                  enum:
+                    - CO
+                    - CA
+                Notas:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Nota'
+  AtualizaPedidoTempoCerto:
+    type: object
+    properties:
+      dsAtualizaPedido:
+        type: object
+        properties:
+          AtualizaPedido:
+            type: array
+            items:
+              type: object
+              properties:
+                dataIntegracao:
+                  type: string
+                  format: date
+  RetornoAtualizaPedidoTempoCerto:
+    type: object
+    properties:
+      dsRetorno:
+        type: object
+        properties:
+          Retorno:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                descricao:
+                  type: string
+
+  AtualizaAgendamentoTempoCerto:
+    type: object
+    properties:
+      dsAtualizaAgendamento:
+        type: object
+        properties:
+          AtualizaAgendamentos:
+            type: array
+            items:
+              type: object
+              properties:
+                sincronizado:
+                  type: boolean
+  RetornoAtualizaAgendamentoTempoCerto:
+    type: object
+    properties:
+      dsRetorno:
+        type: object
+        properties:
+          Retorno:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                descricao:
+                  type: string
+
+  DocumentoTempoCerto:
+    type: object
+    properties:
+      dsDocumentos:
+        type: object
+        properties:
+          Documento:
+            type: array
+            items:
+              type: object
+              properties:
+                idAgenda:
+                  type: string
+                Documentos:
+                  type: array
+                  items:
+                    $ref: '#/definitions/DocumentosTempoCerto'
+  DocumentosTempoCerto:
+    type: object
+    properties:
+      tipoDocumento:
+        type: string
+      documento:
+        type: string
+      codPedido:
+        type: string
+      chaveDanfe:
+        type: string
+      dataEmissao:
+        type: string
+        format: date
+      idDocTempoCerto:
+        type: string
+  RetornoCriaDocumentoTempoCerto:
+    type: object
+    properties:
+      dsRetorno:
+        type: object
+        properties:
+          Retorno:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                descricao:
+                  type: string
+
+  AgendamentoTempoCerto:
+    type: object
+    properties:
+      dsAgendamentos:
+        type: object
+        properties:
+          Agendamento:
+            type: array
+            items:
+              type: object
+              properties:
+                cnpjEstabelecimento:
+                  type: string
+                dataPrevista:
+                  type: string
+                  format: date
+                horaInicialPrevista:
+                  type: string
+                horaFinalPrevista:
+                  type: string
+                cnpjTransportadora:
+                  type: string
+                nomeTransportadora:
+                  type: string
+                paletizada:
+                  type: boolean
+                quantidadeVolumes:
+                  type: number
+                  format: float
+                peso:
+                  type: number
+                  format: float
+                caracteristica:
+                  type: string
+                  enum:
+                    - C
+                    - F
+                    - N
+                    - R
+                    - S
+                idAgenda:
+                  type: string
+                ticket:
+                  type: string
+                Notas:
+                  type: array
+                  items:
+                    $ref: '#/definitions/DocumentosTempoCerto'
+  RetornoCriarAgendamentoTempoCerto:
+    type: object
+    properties:
+      dsRetorno:
+        type: object
+        properties:
+          Retorno:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                descricao:
+                  type: string
+  Nota:
+    type: object
+    properties:
+      chaveDanfe:
+        type: string
+      motivo:
+        type: string
+      status:
+        type: string
+        enum:
+          - CAN
+          - CON
+
+

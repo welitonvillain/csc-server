@@ -1,0 +1,854 @@
+swagger: '2.0'
+info:
+  title: Serviço de Notas Fiscais
+  version: '0.1'
+host: api.agendarentrega.com/nota-fiscal/v2
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/entidades/{entidadeUUID}/nfes/recepcao':
+    post:
+      operationId: ListNFEsRecepcaoEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeListNFEsRecepcaoEntidadeResponse'
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/nfeListNFEsRecepcaoEntidadeRequest'
+      tags:
+        - NotaFiscalService
+  '/entidades/{entidadeUUID}/nfes:search':
+    post:
+      operationId: SearchNFEsEntidade
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeSearchNFEsEntidadeResponse'
+      parameters:
+        - name: entidadeUUID
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/nfeSearchNFEsEntidadeRequest'
+      tags:
+        - NotaFiscalService
+  '/entidades/{entidade_uuid}/validacoes':
+    get:
+      operationId: GetConfigValidacoes
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeGetConfigValidacoesResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+      tags:
+        - NotaFiscalService
+    post:
+      operationId: UpdateConfigValidacao
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeUpdateConfigValidacaoResponse'
+      parameters:
+        - name: entidade_uuid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/nfeUpdateConfigValidacaoRequest'
+      tags:
+        - NotaFiscalService
+  /nfes:
+    post:
+      operationId: UploadNFEHttp
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeUploadNFEResponse'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: string
+            format: byte
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}':
+    get:
+      operationId: GetNFE
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeGetNFEResponse'
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          type: string
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}/download':
+    get:
+      summary: Gerar link de download do arquivo XML
+      operationId: CreateDownloadLinkXML
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeCreateDownloadLinkXMLResponse'
+      parameters:
+        - name: chave
+          description: Chave de Acesso da Nota Fiscal
+          in: path
+          required: true
+          type: string
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}/download/pdf':
+    get:
+      summary: Gerar link de download do arquivo PDF
+      operationId: CreateDownloadLinkPDF
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeCreateDownloadLinkPDFResponse'
+      parameters:
+        - name: chave
+          description: Chave de Acesso da Nota Fiscal
+          in: path
+          required: true
+          type: string
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}/itens':
+    get:
+      operationId: GetItens
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeGetItensNFEResponse'
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          type: string
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}/validacoes':
+    get:
+      operationId: GetValidacoes
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeGetValidacoesNFEResponse'
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          type: string
+      tags:
+        - NotaFiscalService
+  '/nfes:batchGetNotas':
+    get:
+      operationId: BatchGetNotas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeBatchGetNotasResponse'
+      parameters:
+        - name: chaves
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      tags:
+        - NotaFiscalService
+  '/nfes:batchStatsValidacoes':
+    post:
+      operationId: BatchStatsValidacoes
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/nfeBatchStatsValidacoesResponse'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/nfeBatchStatsValidacoesRequest'
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}:aprovarRecebimento':
+    post:
+      operationId: AprovarRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/nfeAprovarRecebimentoResponse"
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/nfeAprovarRecebimentoRequest"
+      tags:
+        - NotaFiscalService
+  '/nfes/{chave}:recusarRecebimento':
+    post:
+      operationId: RecusarRecebimento
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            "$ref": "#/definitions/nfeRecusarRecebimentoResponse"
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            "$ref": "#/definitions/nfeRecusarRecebimentoRequest"
+      tags:
+        - NotaFiscalService
+definitions:
+  BatchStatsValidacoesResponseNFE:
+    type: object
+    properties:
+      chave:
+        type: string
+      stats:
+        $ref: '#/definitions/nfeStatsValidacaoNFE'
+  EntidadeTipoPessoa:
+    type: string
+    enum:
+      - TipoPessoa_FISICA
+      - TipoPessoa_JURIDICA
+    default: TipoPessoa_FISICA
+  GetValidacoesNFEResponseValidacao:
+    type: object
+    properties:
+      tipo:
+        type: string
+      subtipo:
+        type: string
+      item_id:
+        type: integer
+        format: int32
+      valor_nota:
+        type: string
+      valor_pedido:
+        type: string
+      adicional:
+        type: string
+      descricao:
+        type: string
+        title: Contém a "descrição" sobre este tipo apresentável ao usuário
+      formatacao:
+        type: string
+        title: 'define os tipos de formatação do campo (moeda, texto, porcentagem, etc)'
+  NotaFiscalItemProduto:
+    type: object
+    properties:
+      codigo:
+        type: string
+      ean:
+        type: string
+      descricao:
+        type: string
+      ean_tributacao:
+        type: string
+      unidade_comercial:
+        type: string
+      quantidade_comercial:
+        type: number
+        format: float
+      valor_unitario_comercializacao:
+        type: number
+        format: float
+      unidade_tributavel:
+        type: string
+      quantidade_tributavel:
+        type: number
+        format: float
+      valor_unitario_tributacao:
+        type: number
+        format: float
+      valor_total:
+        type: number
+        format: float
+      codigo_pedido:
+        type: string
+  NotaFiscalOrigem:
+    type: string
+    enum:
+      - Origem_SEFAZ
+      - Origem_EMAIL
+      - Origem_UPLOAD_SITE
+      - Origem_EXTERNO
+    default: Origem_SEFAZ
+  NotaFiscalStatusRecebimento:
+    type: string
+    enum:
+      - StatusRecebimento_IGNORADO
+      - StatusRecebimento_PENDENTE
+      - StatusRecebimento_APROVADO
+      - StatusRecebimento_RECUSADO
+    default: StatusRecebimento_IGNORADO
+  NotaFiscalTransporte:
+    type: object
+    properties:
+      transportadora:
+        $ref: '#/definitions/filialFilial'
+      veiculo:
+        $ref: '#/definitions/TransporteVeiculo'
+      volumes:
+        type: array
+        items:
+          $ref: '#/definitions/TransporteVolume'
+  OrderColumn:
+    type: object
+    properties:
+      name:
+        type: string
+      desc:
+        type: boolean
+        format: boolean
+  TransporteVeiculo:
+    type: object
+    properties:
+      placa:
+        type: string
+      uf:
+        type: string
+  TransporteVolume:
+    type: object
+    properties:
+      especie:
+        type: string
+      marca:
+        type: string
+      quantidade:
+        type: string
+        format: int64
+      peso_liquido:
+        type: number
+        format: double
+      peso_bruto:
+        type: number
+        format: double
+  apiOrder:
+    type: object
+    properties:
+      columns:
+        type: array
+        items:
+          $ref: '#/definitions/OrderColumn'
+  apiPage:
+    type: object
+    properties:
+      current:
+        type: integer
+        format: int32
+      total:
+        type: integer
+        format: int32
+      perPage:
+        type: integer
+        format: int32
+  apiPageRequest:
+    type: object
+    properties:
+      page:
+        type: integer
+        format: int32
+      size:
+        type: integer
+        format: int32
+  entidadeEntidade:
+    type: object
+    properties:
+      uuid:
+        type: string
+      cpfCnpjMatriz:
+        type: string
+        title: 'Em caso de Pessoa Física, CPF completo, caso contrário, somente 8 digitos referente à parte matriz do CNPJ'
+      nome:
+        type: string
+      nomeFantasia:
+        type: string
+      tipoPessoa:
+        $ref: '#/definitions/EntidadeTipoPessoa'
+      dataCadastro:
+        type: string
+        format: int64
+      logotipoPersonalizada:
+        type: boolean
+        format: boolean
+  filialFilial:
+    type: object
+    properties:
+      uuid:
+        type: string
+      entidade:
+        $ref: '#/definitions/entidadeEntidade'
+      cpfCnpj:
+        type: string
+      nomeFantasia:
+        type: string
+      ordem:
+        type: string
+        format: int64
+      matriz:
+        type: boolean
+        format: boolean
+      ativo:
+        type: boolean
+        format: boolean
+      dataCadastro:
+        type: string
+        format: int64
+  nfeAprovarRecebimentoRequest:
+    type: object
+    properties:
+      chave:
+        type: string
+  nfeAprovarRecebimentoResponse:
+    type: object
+  nfeBatchGetNotasResponse:
+    type: object
+    properties:
+      notas:
+        type: array
+        items:
+          $ref: '#/definitions/nfeNotaFiscal'
+  nfeBatchStatsValidacoesRequest:
+    type: object
+    properties:
+      chaves:
+        type: array
+        items:
+          type: string
+  nfeBatchStatsValidacoesResponse:
+    type: object
+    properties:
+      notas:
+        type: array
+        items:
+          $ref: '#/definitions/BatchStatsValidacoesResponseNFE'
+  nfeCreateDownloadLinkPDFResponse:
+    type: object
+    properties:
+      url:
+        type: string
+        description: URL pública gerado com acesso temporário para download do arquivo XML.
+  nfeCreateDownloadLinkXMLResponse:
+    type: object
+    properties:
+      url:
+        type: string
+        description: URL pública gerado com acesso temporário para download do arquivo XML.
+  nfeGetConfigValidacoesResponse:
+    type: object
+    properties:
+      validacoes:
+        type: array
+        items:
+          $ref: '#/definitions/nfeValidacaoNotaFiscal'
+  nfeGetItensNFEResponse:
+    type: object
+    properties:
+      itens:
+        type: array
+        items:
+          $ref: '#/definitions/nfeNotaFiscalItem'
+  nfeGetNFEResponse:
+    type: object
+    properties:
+      nota:
+        $ref: '#/definitions/nfeNotaFiscal'
+  nfeGetNotasRecepcionadasResponse:
+    type: object
+    properties:
+      notas:
+        type: array
+        items:
+          $ref: '#/definitions/nfeNotaFiscal'
+      last_chave:
+        type: string
+      continue:
+        type: boolean
+        format: boolean
+  nfeGetValidacoesNFEResponse:
+    type: object
+    properties:
+      validacoes:
+        type: array
+        items:
+          $ref: '#/definitions/GetValidacoesNFEResponseValidacao'
+  nfeListNFEsRecepcaoEntidadeRequest:
+    type: object
+    properties:
+      entidadeUUID:
+        type: string
+      order:
+        $ref: '#/definitions/apiOrder'
+      page:
+        $ref: '#/definitions/apiPageRequest'
+      filtro:
+        $ref: '#/definitions/nfeListNFEsRecepcaoEntidadeRequestFiltro'
+  nfeListNFEsRecepcaoEntidadeRequestFiltro:
+    type: object
+    properties:
+      filialUUID:
+        type: string
+      chave:
+        type: string
+      numeroNota:
+        type: string
+      tipoDivergencia:
+        type: string
+  nfeListNFEsRecepcaoEntidadeResponse:
+    type: object
+    properties:
+      notas:
+        type: array
+        items:
+          $ref: '#/definitions/nfeNotaFiscal'
+      page:
+        $ref: '#/definitions/apiPage'
+      order:
+        $ref: '#/definitions/apiOrder'
+      filiais:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/filialFilial'
+      notasPorFilial:
+        type: object
+        additionalProperties:
+          type: string
+          format: int64
+  nfeNotaFiscal:
+    type: object
+    properties:
+      chave:
+        type: string
+      emitente:
+        $ref: '#/definitions/filialFilial'
+      destinatario:
+        $ref: '#/definitions/filialFilial'
+      transporte:
+        $ref: '#/definitions/NotaFiscalTransporte'
+      origem:
+        $ref: '#/definitions/NotaFiscalOrigem'
+      numeroNota:
+        type: string
+        format: int64
+      pedido:
+        type: string
+      dataCadastro:
+        type: string
+      dataEmissao:
+        type: string
+      statusRecebimento:
+        $ref: '#/definitions/NotaFiscalStatusRecebimento'
+      uuidEventoRecusado:
+        type: string
+      itens:
+        type: array
+        items:
+          $ref: '#/definitions/nfeNotaFiscalItem'
+      pedidos:
+        type: array
+        items:
+          type: string
+      pedidos_itens:
+        type: array
+        items:
+          type: string
+  nfeNotaFiscalItem:
+    type: object
+    properties:
+      item:
+        type: integer
+        format: int32
+      produto:
+        $ref: '#/definitions/NotaFiscalItemProduto'
+  nfeRecusarRecebimentoRequest:
+    type: object
+    properties:
+      chave:
+        type: string
+      motivo:
+        type: string
+  nfeRecusarRecebimentoResponse:
+    type: object
+  nfeSearchNFEsEntidadeRequest:
+    type: object
+    properties:
+      entidadeUUID:
+        type: string
+      filtro:
+        $ref: '#/definitions/nfeSearchNFEsEntidadeRequestFiltro'
+      page:
+        $ref: '#/definitions/apiPageRequest'
+  nfeSearchNFEsEntidadeRequestFiltro:
+    type: object
+    properties:
+      chave:
+        type: string
+      numeroNota:
+        type: string
+      pedido:
+        type: string
+      emitenteUUID:
+        type: string
+      destinatarioUUID:
+        type: string
+      tipoDivergencia:
+        type: string
+  nfeSearchNFEsEntidadeResponse:
+    type: object
+    properties:
+      notas:
+        type: array
+        items:
+          $ref: '#/definitions/nfeNotaFiscal'
+      page:
+        $ref: '#/definitions/apiPage'
+  nfeStatsValidacaoNFE:
+    type: object
+    properties:
+      divergencias_count:
+        type: integer
+        format: int32
+  nfeUpdateConfigValidacaoRequest:
+    type: object
+    properties:
+      entidade_uuid:
+        type: string
+      validacao:
+        $ref: '#/definitions/nfeValidacaoNotaFiscal'
+  nfeUpdateConfigValidacaoResponse:
+    type: object
+  nfeUploadNFEResponse:
+    type: object
+    properties:
+      chave:
+        type: string
+  nfeValidacaoNotaFiscal:
+    type: object
+    properties:
+      tipo:
+        type: string
+      titulo:
+        type: string
+      descricao:
+        type: string
+      ativo:
+        type: boolean
+        format: boolean
+      bloquear_agendamento:
+        type: boolean
+        format: boolean
+      interno:
+        type: boolean
+        format: boolean
+      campos:
+        type: array
+        items:
+          $ref: '#/definitions/nfeValidacaoNotaFiscalCampo'
+  nfeValidacaoNotaFiscalCampo:
+    type: object
+    properties:
+      nome:
+        type: string
+      titulo:
+        type: string
+      tipo:
+        type: string
+      valor:
+        $ref: '#/definitions/nfeValidacaoNotaFiscalCampoValue'
+  nfeValidacaoNotaFiscalCampoValue:
+    type: object
+    properties:
+      bool_value:
+        type: boolean
+        format: boolean
+      int_value:
+        type: string
+        format: int64
+      double_value:
+        type: number
+        format: double
+      string_value:
+        type: string
+      any_value:
+        $ref: '#/definitions/protobufAny'
+  protobufAny:
+    type: object
+    properties:
+      type_url:
+        type: string
+        description: |-
+          A URL/resource name that uniquely identifies the type of the serialized
+          protocol buffer message. This string must contain at least
+          one "/" character. The last segment of the URL's path must represent
+          the fully qualified name of the type (as in
+          `path/google.protobuf.Duration`). The name should be in a canonical form
+          (e.g., leading "." is not accepted).
+
+          In practice, teams usually precompile into the binary all types that they
+          expect it to use in the context of Any. However, for URLs which use the
+          scheme `http`, `https`, or no scheme, one can optionally set up a type
+          server that maps type URLs to message definitions as follows:
+
+          * If no scheme is provided, `https` is assumed.
+          * An HTTP GET on the URL must yield a [google.protobuf.Type][]
+            value in binary format, or produce an error.
+          * Applications are allowed to cache lookup results based on the
+            URL, or have them precompiled into a binary to avoid any
+            lookup. Therefore, binary compatibility needs to be preserved
+            on changes to types. (Use versioned type names to manage
+            breaking changes.)
+
+          Note: this functionality is not currently available in the official
+          protobuf release, and it is not used for type URLs beginning with
+          type.googleapis.com.
+
+          Schemes other than `http`, `https` (or the empty scheme) might be
+          used with implementation specific semantics.
+      value:
+        type: string
+        format: byte
+        description: Must be a valid serialized protocol buffer of the above specified type.
+    description: |-
+      `Any` contains an arbitrary serialized protocol buffer message along with a
+      URL that describes the type of the serialized message.
+
+      Protobuf library provides support to pack/unpack Any values in the form
+      of utility functions or additional generated methods of the Any type.
+
+      Example 1: Pack and unpack a message in C++.
+
+          Foo foo = ...;
+          Any any;
+          any.PackFrom(foo);
+          ...
+          if (any.UnpackTo(&foo)) {
+            ...
+          }
+
+      Example 2: Pack and unpack a message in Java.
+
+          Foo foo = ...;
+          Any any = Any.pack(foo);
+          ...
+          if (any.is(Foo.class)) {
+            foo = any.unpack(Foo.class);
+          }
+
+       Example 3: Pack and unpack a message in Python.
+
+          foo = Foo(...)
+          any = Any()
+          any.Pack(foo)
+          ...
+          if any.Is(Foo.DESCRIPTOR):
+            any.Unpack(foo)
+            ...
+
+       Example 4: Pack and unpack a message in Go
+
+           foo := &pb.Foo{...}
+           any, err := ptypes.MarshalAny(foo)
+           ...
+           foo := &pb.Foo{}
+           if err := ptypes.UnmarshalAny(any, foo); err != nil {
+             ...
+           }
+
+      The pack methods provided by protobuf library will by default use
+      'type.googleapis.com/full.type.name' as the type URL and the unpack
+      methods only use the fully qualified type name after the last '/'
+      in the type URL, for example "foo.bar.com/x/y.z" will yield type
+      name "y.z".
+
+
+      JSON
+      ====
+      The JSON representation of an `Any` value uses the regular
+      representation of the deserialized, embedded message, with an
+      additional field `@type` which contains the type URL. Example:
+
+          package google.profile;
+          message Person {
+            string first_name = 1;
+            string last_name = 2;
+          }
+
+          {
+            "@type": "type.googleapis.com/google.profile.Person",
+            "firstName": <string>,
+            "lastName": <string>
+          }
+
+      If the embedded message type is well-known and has a custom JSON
+      representation, that representation will be embedded adding a field
+      `value` which holds the custom JSON in addition to the `@type`
+      field. Example (for message [google.protobuf.Duration][]):
+
+          {
+            "@type": "type.googleapis.com/google.protobuf.Duration",
+            "value": "1.212s"
+          }
+securityDefinitions:
+  API_KEY:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - API_KEY: []

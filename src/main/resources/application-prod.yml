@@ -1,0 +1,26 @@
+spring:
+  rabbitmq:
+    host: "csc-server.angeloni.com.br"
+
+pasoe:
+  base-url: "http://pasoe.angeloni.com.br:8080/rest/"
+
+agendaentrega:
+  base-url: "https://api.agendarentrega.com/"
+  api-key: "Bearer 3688ee1e9adf9352ccfdc32acb6916459dab03a5:7e34534e7c780ea7781eb2eb6d63e8f8c17ca8d7"
+  uuid-anotacao: "975daa2a-70e7-4ee7-af3d-0694fce28a86 "
+
+notifications:
+  errors:
+    teams: "https://angeloni.webhook.office.com/webhookb2/c36966a3-0c09-4ae0-936b-09d4a22596fa@90e262ba-293a-4132-b08a-8e8b55e72dfd/IncomingWebhook/ff9e5ea0413545ce9bdae33dcf62ac2e/a43e414f-2b8b-478e-b07d-9a9550c13a6a"
+
+file-server:
+  host: "192.168.55.5"
+  username: "sami"
+  password: "sami"
+  path: "/nas/FS_tempo_certoSAMI/pendente"
+
+queues:
+  notifications: "csc.notifications"
+  agendamentos: "csc.agendamentos"
+  downloads: "csc.downloads"

@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    container_name: prometheus
+    volumes:
+      - ./etc/prometheus/:/etc/prometheus/
+      - prometheus-data:/data
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+  grafana:
+    image: grafana/grafana:7.2.2
+    container_name: grafana
+    volumes:
+      - ./etc/grafana/provisioning/:/etc/grafana/provisioning/
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    links:
+      - prometheus
+    ports:
+      - 3000:3000
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: rabbitmq
+    volumes:
+      - ./etc/rabbitmq/:/etc/rabbitmq/
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=mysecretcookie
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15692:15692
+  app:
+    container_name: app
+    build:
+      context: .
+    links:
+      - prometheus
+      - rabbitmq
+    environment:
+      - JAVA_TOOL_OPTIONS="-Dspring.rabbitmq.host=rabbitmq"
+    command:
+      - --spring.profiles.active=debug
+    ports:
+      - 8081:8081
+
+volumes:
+  prometheus-data: {}
+  grafana-data: {}
+  rabbitmq-data: {}
